@@ -1,0 +1,16 @@
+.heroGrid {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.introGridItem {
+  grid-column: 1 / 5;
+}
+
+.bgAnimationGridItem {
+  grid-column: 3 / 6;
+}
+
+.introGridItem,
+.bgAnimationGridItem {
+  grid-row: 1 / 1;
+}

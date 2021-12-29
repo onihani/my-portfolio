@@ -1,0 +1,45 @@
+.name-gradient {
+  background: linear-gradient(
+    121.57deg,
+    #ffffff 18.77%,
+    rgba(255, 255, 255, 0.66) 60.15%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.image {
+  position: relative;
+  padding-bottom: 100%;
+  min-height: 300px;
+}
+
+/* .image > span > {
+  position: relative;
+  padding-bottom: 100%;
+  min-height: 300px;
+} */
+
+.image img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.image span:nth-of-type(1) img {
+  filter: grayscale(1) brightness(40%);
+}
+.image span:nth-of-type(2) img {
+  -webkit-clip-path: var(--clip-start);
+  clip-path: var(--clip-start);
+  transition: -webkit-clip-path 0.5s;
+  transition: clip-path 0.5s;
+  transition: clip-path 0.5s, -webkit-clip-path 0.5s;
+}
+.image:hover span:nth-of-type(2) img  {
+  -webkit-clip-path: var(--clip-end);
+  clip-path: var(--clip-end);
+}
