@@ -12,6 +12,7 @@
       "@theme/*": ["src/theme/*"],
       "@models/*": ["src/models/*"],
       "@services/*": ["src/services/*"],
+      "@helpers": ["src/helpers/index.js"],
     }
   }
 }
