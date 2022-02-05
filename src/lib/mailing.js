@@ -83,12 +83,17 @@ Mailing.sendEmail = async (data) => {
     html: htmlContent,
   };
 
-  smtpTransport.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    return info;
+  await new Promise((resolve, reject) => {
+    smtpTransport.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+        // return;
+      }
+
+      // return info;
+      resolve("mail sent");
+    });
   });
 };
 
