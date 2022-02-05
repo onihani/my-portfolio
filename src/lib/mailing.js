@@ -45,7 +45,7 @@ Mailing.sendEmail = async (data) => {
     refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
   });
   const accessToken = await oauth2Client.getAccessToken();
-  // console.log(accessToken);
+  console.log(accessToken);
 
   const smtpTransport = nodemailer.createTransport({
     service: "gmail",
@@ -83,7 +83,7 @@ Mailing.sendEmail = async (data) => {
     html: htmlContent,
   };
 
-  return smtpTransport.sendMail(mailOptions, (err, info) => {
+  smtpTransport.sendMail(mailOptions, (err, info) => {
     if (err) {
       console.error(err);
       return;
