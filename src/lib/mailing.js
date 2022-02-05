@@ -83,7 +83,7 @@ Mailing.sendEmail = async (data) => {
     html: htmlContent,
   };
 
-  smtpTransport.sendMail(mailOptions, (err, info) => {
+  return smtpTransport.sendMail(mailOptions, (err, info) => {
     if (err) {
       console.error(err);
       return;
