@@ -24,7 +24,7 @@ async function mailContactMessageHandler(req, res) {
 
         // send email to myself
         try {
-          Mailing.sendEmail({ template: "contact", email, name, message });
+          await Mailing.sendEmail({ template: "contact", email, name, message });
           // console.log("Sending email");
         } catch (e) {
           console.error(e);
