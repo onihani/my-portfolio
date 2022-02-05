@@ -19,16 +19,18 @@ async function mailContactMessageHandler(req, res) {
           message,
         });
 
+        // send email to myself
+        await Mailing.sendEmail({ template: "contact", email, name, message });
+
         // respond with a success response
         res.status(201).json({ success: true, data: contactMessage });
 
         // send email to myself
-        try {
-          await Mailing.sendEmail({ template: "contact", email, name, message });
+        /* try {
           // console.log("Sending email");
         } catch (e) {
           console.error(e);
-        }
+        } */
       } catch (error) {
         console.error(error);
         res.status(400).json({ success: false });
