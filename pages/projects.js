@@ -165,7 +165,7 @@ function MyProjects() {
                       </p>
                       <div className="card-actions">
                         <a
-                          href="https:/in-the-black.org/"
+                          href="https://in-the-black.org/"
                           target="_blank"
                           rel="noreferrer"
                           className="btn btn-block bg-background1 border-2 rounded-lg focus:outline-none"
