@@ -1,15 +1,41 @@
+// cors
+import Cors from 'cors'
+
 import Mailing from "../../src/lib/mailing";
 import dbConnect from "../../src/lib/dbConnect";
 import ContactMessage from "../../src/models/ContactMessage";
 
+
+// Initializing the cors middleware
+const cors = Cors({
+  methods: ['GET', 'POST', 'HEAD'],
+})
+
+// Helper method to wait for a middleware to execute before continuing
+// And to throw an error when an error happens in a middleware
+function runMiddleware(req, res, fn) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result) => {
+      if (result instanceof Error) {
+        return reject(result)
+      }
+
+      return resolve(result)
+    })
+  })
+}
+
 async function mailContactMessageHandler(req, res) {
+  // run cors middleware
+  await runMiddleware(req, res, cors)
+
   const { method } = req;
 
   await dbConnect();
 
   switch (method) {
     case "POST":
-      const { name, email, message } = req.body;
+      const { name, email, message, recipient, template } = req.body;
 
       try {
         // save contact data to mongodb
@@ -20,7 +46,13 @@ async function mailContactMessageHandler(req, res) {
         });
 
         // send email to myself
-        await Mailing.sendEmail({ template: "contact", email, name, message });
+        await Mailing.sendEmail({
+          template: template ? template : "contact",
+          email,
+          name,
+          message,
+          recipient: recipient ? recipient : "n.bongo40@gmail.com",
+        });
 
         // respond with a success response
         res.status(201).json({ success: true, data: contactMessage });

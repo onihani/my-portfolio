@@ -8,6 +8,14 @@ const {
   MAILING_SERVICE_CLIENT_SECRET,
   MAILING_SERVICE_REFRESH_TOKEN,
   SENDER_EMAIL_ADDRESS,
+  MAILING_SERVICE_USERNAME,
+  MAILING_SERVICE_PASSWORD,
+  EMAIL_SERVICE_HOST,
+  EMAIL_SERVICE,
+  EMAIL_SERVICE_PORT,
+  EMAIL_USER,
+  EMAIL_PASSWORD,
+  EMAIL_FROM,
 } = process.env;
 const Mailing = {};
 const oauth2Client = new OAuth2(
@@ -35,32 +43,72 @@ const TEMPLATES = {
 <p>From your portfolio website.</p>
     `,
   },
+  bigGirlsRiseContact: {
+    fileName: "contact-mail-template.ejs",
+    subject: "[Big Girls Rise] New contact message.",
+    temp: `
+<h3>Hi Big Girls Rise NFT, You have a new contact message</h3>
+<hr>
+<br />
+<br />
+
+<p><strong>NAME:</strong> <%= name %></p>
+<p><strong>EMAIL:</strong> <%= email %></p>
+<p><strong>MESSAGE:</strong> <%= message %></p>
+
+<br />
+<br />
+<hr>
+<p>From your website.</p>
+  `,
+  },
+  bigGirlsRiseWhitelist: {
+    fileName: "contact-mail-template.ejs",
+    subject: "[Big Girls Rise] New whitelist message.",
+    temp: `
+<h3>Hi Big Girls Rise NFT, You have a new whitelist message</h3>
+<hr>
+<br />
+<br />
+
+<p><strong>TWITTER:</strong> <%= name %></p>
+<p><strong>EMAIL:</strong> <%= email %></p>
+<p><strong>ETH ADDRESS:</strong> <%= message %></p>
+
+<br />
+<br />
+<hr>
+<p>From your website.</p>
+  `,
+  },
 };
 /**
  * Send Email
  */
 Mailing.sendEmail = async (data) => {
-  oauth2Client.setCredentials({
-    scope: "https://www.googleapis.com/auth/gmail.send",
-    refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
-  });
-  const accessToken = await oauth2Client.getAccessToken();
+  // oauth2Client.setCredentials({
+  //   scope: "https://www.googleapis.com/auth/gmail.send",
+  //   refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
+  // });
+  // const accessToken = await oauth2Client.getAccessToken();
   // console.log(accessToken);
 
   const smtpTransport = nodemailer.createTransport({
-    service: "gmail",
-    host: "smtp.gmail.com",
-    port: 587, // TLS (google requires this port for TLS)
+    service: EMAIL_SERVICE, // gmail
+    host: EMAIL_SERVICE_HOST, //smtp.gmail.com
+    port: EMAIL_SERVICE_PORT, // TLS (google requires this port for TLS)
     secure: false, // Not SSL
-    requireTLS: true, // Uses STARTTLS command (nodemailer-ism)
+    // requireTLS: true, // Uses STARTTLS command (nodemailer-ism)
     auth: {
-      type: "OAuth2",
-      scope: "https://www.googleapis.com/auth/gmail.send",
-      user: SENDER_EMAIL_ADDRESS,
-      clientId: MAILING_SERVICE_CLIENT_ID,
-      clientSecret: MAILING_SERVICE_CLIENT_SECRET,
-      refreshToken: MAILING_SERVICE_REFRESH_TOKEN,
-      accessToken: accessToken.token,
+      user: EMAIL_USER,
+      pass: EMAIL_PASSWORD,
+      // type: "OAuth2",
+      // scope: "https://www.googleapis.com/auth/gmail.send",
+      // user: SENDER_EMAIL_ADDRESS,
+      // clientId: MAILING_SERVICE_CLIENT_ID,
+      // clientSecret: MAILING_SERVICE_CLIENT_SECRET,
+      // refreshToken: MAILING_SERVICE_REFRESH_TOKEN,
+      // accessToken: accessToken.token,
     },
   });
 
@@ -77,8 +125,8 @@ Mailing.sendEmail = async (data) => {
   // console.log(htmlContent);
 
   const mailOptions = {
-    from: `My Portfolio <${SENDER_EMAIL_ADDRESS}>`,
-    to: SENDER_EMAIL_ADDRESS,
+    from: `${data.template == 'conatct' ? 'My Portfolio' : 'Big Girls Rise NFT'} <${SENDER_EMAIL_ADDRESS}>`,
+    to: data.recipient,
     subject: TEMPLATES[data.template].subject,
     html: htmlContent,
   };
