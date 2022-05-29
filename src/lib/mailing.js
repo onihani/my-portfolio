@@ -125,7 +125,7 @@ Mailing.sendEmail = async (data) => {
   // console.log(htmlContent);
 
   const mailOptions = {
-    from: `${data.template == 'conatct' ? 'My Portfolio' : 'Big Girls Rise NFT'} <${SENDER_EMAIL_ADDRESS}>`,
+    from: `${data.template == 'contact' ? 'My Portfolio' : 'Big Girls Rise NFT'} <${SENDER_EMAIL_ADDRESS}>`,
     to: data.recipient,
     subject: TEMPLATES[data.template].subject,
     html: htmlContent,
