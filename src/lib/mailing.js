@@ -95,6 +95,7 @@ const TEMPLATES = {
 <p><strong>EMAIL:</strong> <%= email %></p>
 <p><strong>Age:</strong> <%= age %></p>
 <p><strong>Occupation:</strong> <%= occupation %></p>
+<p><strong>Location:</strong> <%= location %></p>
 
 <br />
 <br />
