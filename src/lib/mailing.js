@@ -81,6 +81,27 @@ const TEMPLATES = {
 <p>From your website.</p>
   `,
   },
+  bigGirlsRiseBigGirlsClub: {
+    fileName: "contact-mail-template.ejs",
+    subject: "[Big Girls Rise] New Club Signup.",
+    temp: `
+<h3>Hi Big Girls Rise NFT, You have a new big girls club sign up</h3>
+<hr>
+<br />
+<br />
+
+<h4>New Club Member Details</h4>
+<p><strong>TWITTER:</strong> <%= name %></p>
+<p><strong>EMAIL:</strong> <%= email %></p>
+<p><strong>Age:</strong> <%= age %></p>
+<p><strong>Occupation:</strong> <%= occupation %></p>
+
+<br />
+<br />
+<hr>
+<p>From your website.</p>
+  `,
+  },
 };
 /**
  * Send Email

@@ -35,7 +35,7 @@ async function mailContactMessageHandler(req, res) {
 
   switch (method) {
     case "POST":
-      const { name, email, message, recipient, template } = req.body;
+      const { name, email, message = "no message sent", recipient, template, ...rest } = req.body;
 
       try {
         // save contact data to mongodb
@@ -51,6 +51,7 @@ async function mailContactMessageHandler(req, res) {
           email,
           name,
           message,
+          ...rest,
           recipient: recipient ? recipient : "n.bongo40@gmail.com",
         });
 
