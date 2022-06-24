@@ -13,6 +13,7 @@ import voted from "@assets/images/projects/voted.png";
 import mapadvantageprep from "@assets/images/projects/mapadvantageprep.png";
 import in_the_black from "@assets/images/projects/in-the-black.png";
 import dvla_online from "@assets/images/projects/dvla-online.png";
+import biggirlsrisenft from "@assets/images/projects/big-girls-rise-nft.png";
 
 function MyProjects() {
   return (
@@ -32,6 +33,42 @@ function MyProjects() {
             {/* Projects List */}
             <div className="w-full mt-10 mx-auto">
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14">
+                {/* Project Big Girls Rise */}
+                <div className="flex-1">
+                  <div className="card bg-white text-neutral shadow-md shadow-zing-500/20">
+                    <figure className="p-4 pb-0">
+                      <Image
+                        src={biggirlsrisenft}
+                        alt="project photo desc"
+                        className="w-full rounded-lg shadow-lg mx-auto"
+                        width={400}
+                        height={250}
+                        layout="responsive"
+                        placeholder="blur"
+                      />
+                    </figure>
+                    <div className="card-body">
+                      <h2 className="card-title text-2xl font-semibold font-sans">
+                        Big Girls Rise NFT
+                      </h2>
+                      <p className="font-medium text-zinc-500">
+                        A website for an nft project that is creating the
+                        right platform to educate, support and empower young
+                        girls through NFTs and Web 3.0.
+                      </p>
+                      <div className="card-actions">
+                        <a
+                          href="https://biggirlsrise.art/"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="btn btn-block bg-background1 border-2 rounded-lg focus:outline-none"
+                        >
+                          Visit Website
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 {/* Project 1 */}
                 <div className="flex-1">
                   <div className="card bg-white text-neutral shadow-md shadow-zing-500/20">
