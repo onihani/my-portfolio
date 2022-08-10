@@ -40,7 +40,7 @@ async function newContactMessageHandler(req, res) {
           email,
           name,
           message,
-          recipient: "mr.nutty.peanut@gmail.com",
+          recipient: "adobeap.dankyi@gmail.com", // mr.nutty.peanut@gmail.com
         });
 
         // respond with a success response
