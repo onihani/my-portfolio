@@ -40,7 +40,7 @@ async function newContactMessageHandler(req, res) {
           email,
           name,
           message,
-          recipient: "n.bongo40@gmail.com",
+          recipient: "mr.nutty.peanut@gmail.com",
         });
 
         // respond with a success response
