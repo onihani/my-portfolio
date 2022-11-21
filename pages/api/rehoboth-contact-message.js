@@ -7,6 +7,8 @@ import Mailing from "@lib/rehoboth-mailing";
 // Initializing the cors middleware
 const cors = Cors({
   methods: ["GET", "POST", "HEAD"],
+  origin: "*",
+  optionsSuccessStatus: 200,
 });
 
 // Helper method to wait for a middleware to execute before continuing
