@@ -37,9 +37,13 @@ async function bgrAuctionWaitlistHandler(req, res) {
 
       try {
         // save contact data to mongodb
-        const bgrAuctionWaitlist = await BGRAuction.create({
-          email,
-        });
+        const bgrAuctionWaitlist = await BGRAuction.findOneAndUpdate(
+          {
+            email,
+          },
+          { email },
+          { upsert: true, useFindAndModify: false }
+        );
 
         // respond with a success response
         res.status(201).json({ success: true, data: bgrAuctionWaitlist });
@@ -52,6 +56,5 @@ async function bgrAuctionWaitlistHandler(req, res) {
       break;
   }
 }
-
 
 export default bgrAuctionWaitlistHandler;

@@ -2,7 +2,11 @@ import mongoose from "mongoose";
 
 const BGRAuctionSchema = new mongoose.Schema(
   {
-    email: String,
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
   },
   { timestamps: true }
 );
