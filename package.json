@@ -10,6 +10,7 @@
   "dependencies": {
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
+    "@tryghost/admin-api": "^1.13.4",
     "axios": "^0.25.0",
     "cors": "^2.8.5",
     "daisyui": "^1.16.6",
