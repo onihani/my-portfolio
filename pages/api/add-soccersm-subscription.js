@@ -43,11 +43,19 @@ async function soccersmWaitlistHandler(req, res) {
         });
 
         // add email to waitlist / member to member list
-        await api.members.add({ email, note: "soccersm waitlist" })
+        await api.members.add({ email, note: "soccersm waitlist" });
 
         // respond with a success response
         res.status(201).json({ success: true, data: { email } });
       } catch (error) {
+        if (
+          error.context ==
+          "Member already exists. Attempting to add member with existing email address"
+        ) {
+          res.status(201).json({ success: true, data: { email } });
+          return;
+        }
+
         res.status(400).json({ success: false, error });
       }
       break;
