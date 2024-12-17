@@ -1,34 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Portfolio Repo
 
-## Getting Started
+Hey there! This repo’s got all the versions of my portfolio as I’ve worked on and improved it over time.
 
-First, run the development server:
+## What’s Inside
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- **v1/**, **v2/**, **v3/**, etc.: Each folder is a snapshot of my portfolio at a certain stage. Newer ones are shinier and better, of course.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Latest Version
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- Check out the current portfolio here: [nathanielquansah.com](https://nathanielquansah.com)
+- Want to see older ones? They’re on subdomains like:
+  - [v1.nathanielquansah.com](https://v1.nathanielquansah.com)
+  - [v2.nathanielquansah.com](https://v2.nathanielquansah.com)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## How to Use
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. Clone this repo:
+   ```bash
+   git clone <repository_url>
+   ```
 
-## Learn More
+2. Jump into the version you’re interested in:
+   ```bash
+   cd v1   # or v2, v3, etc.
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. Check the README in that folder for setup instructions (if there’s one).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## A Few Notes
+- Every version shows how my skills and ideas have grown over time.
+- Feel free to poke around and hit me up with feedback or ideas for future versions or updates!
