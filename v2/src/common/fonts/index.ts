@@ -5,5 +5,6 @@ export const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-poppins",
   // TODO: update to use only needed weights
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
-})
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  fallback: ["Arial", "Helvetica", "sans-serif"],
+});

@@ -1,0 +1,14 @@
+/* tailwind */
+@import url("./tailwind.css");
+
+:root {
+  --background: #111111;
+  --foreground: #ffffff;
+  --secondary: #1e1e1e;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-poppins);
+}
