@@ -19,7 +19,8 @@ const NavItem: FC<NavigationItem> = ({ href, icon: IconComponent, label }) => {
           >
             <span className="sr-only">{label}</span>
             <IconComponent
-              size={20}
+              width={20}
+              height={20}
               strokeWidth={1.5}
               className="text-white group-hover:text-secondary"
             />

@@ -1,20 +1,20 @@
-import { Home, User, BookOpen } from "lucide-react";
+import { HomeIcon, PersonIcon, ReaderIcon } from "@radix-ui/react-icons";
 
 export const navigation = [
   {
     href: "/",
     label: "Home",
-    icon: Home,
+    icon: HomeIcon,
   },
   {
     href: "/about",
     label: "About Me",
-    icon: User,
+    icon: PersonIcon,
   },
   {
     href: "/blog",
     label: "Blog",
-    icon: BookOpen,
+    icon: ReaderIcon,
   },
 ];
 

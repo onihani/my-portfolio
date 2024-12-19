@@ -1,2 +1,3 @@
+export * from "./socials";
 export * from "./metadata";
-export * from "./navigation"
+export * from "./navigation";

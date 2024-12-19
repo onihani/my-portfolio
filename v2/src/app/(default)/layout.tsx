@@ -9,7 +9,7 @@ export default function DefaultLayout({
   return (
     <main className="w-full grid lg:grid-cols-3 gap-y-12">
       {/* static contact area */}
-      <div className="lg:col-span-1 border">
+      <div className="lg:col-span-1">
         <Sidebar />
       </div>
       {/* dynamic content area */}
