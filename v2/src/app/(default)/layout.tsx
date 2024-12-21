@@ -1,5 +1,5 @@
 // components
-import { Navbar, Sidebar } from "@/components/layout";
+import { Profile } from "@/components/layout";
 
 export default function DefaultLayout({
   children,
@@ -7,16 +7,15 @@ export default function DefaultLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="w-full grid lg:grid-cols-3 gap-y-12">
-      {/* static contact area */}
-      <div className="lg:col-span-1">
-        <Sidebar />
+    <main className="relative w-full h-min flex items-center justify-center flex-nowrap gap-2.5 overflow-visible">
+      <div className="max-w-6xl container flex flex-[1_1_0] gap-12">
+        <div className="sticky z-1 w-min h-min flex flex-col items-center justify-center flex-nowrap gap-10 overflow-hidden">
+          <div className="contents">
+            <Profile />
+          </div>
+        </div>
       </div>
-      {/* dynamic content area */}
-      <div className="lg:col-span-2 p-10 flex flex-col gap-12">
-        {/* nav */}
-        <Navbar />
-        {/* content */}
+      <div className="p-[84px] flex flex-col gap-12">
         {children}
       </div>
     </main>

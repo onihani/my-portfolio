@@ -1,7 +1,14 @@
+// components
+// import { ProjectCard } from "@/components/pages/home";
+
 export default function Home() {
   return (
-    <div className="min-h-svh flex items-center justify-center">
-      Hello World
-    </div>
+    <>
+    {/* <div className="flex flex-col gap-12 snap-y snap-mandatory">
+      <ProjectCard />
+      <ProjectCard />
+      <ProjectCard />
+    </div> */}
+    </>
   );
 }

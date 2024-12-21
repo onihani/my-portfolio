@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import * as tailwindcssAnimate from "tailwindcss-animate"
+import * as tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   content: [
@@ -9,10 +9,17 @@ export default {
   ],
   theme: {
     extend: {
+      zIndex: {
+        1: "1",
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
         secondary: "var(--secondary)",
+      },
+      fontFamily: {
+        poppins: "var(--font-poppins)",
+        bricolageGrotesque: "var(--font-bricolage-grotesque)",
       },
     },
   },

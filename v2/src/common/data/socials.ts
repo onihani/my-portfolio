@@ -1,24 +1,24 @@
 import {
-  GitHubLogoIcon,
-  LinkedInLogoIcon,
-  TwitterLogoIcon,
-} from "@radix-ui/react-icons";
+  Github,
+  Twitter,
+  Linkedin,
+} from "lucide-react";
 
 export const socials = [
   {
-    href: "https://github.com/Onihani",
+    href: "https://github.com/onihani",
     label: "Github",
-    icon: GitHubLogoIcon,
-  },
-  {
-    href: "https://www.linkedin.com/in/onihani",
-    label: "Linkedin",
-    icon: LinkedInLogoIcon,
+    icon: Github,
   },
   {
     href: "https://x.com/onihani",
     label: "Twitter",
-    icon: TwitterLogoIcon,
+    icon: Twitter,
+  },
+  {
+    href: "https://www.linkedin.com/in/onihani",
+    label: "Linkedin",
+    icon: Linkedin,
   },
 ];
 
