@@ -22,6 +22,18 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.hashnode.com",
+        port: '',
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "framerusercontent.com",
+        port: '',
+        pathname: "/**",
+      },
     ],
   },
 };

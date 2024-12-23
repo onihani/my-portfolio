@@ -2,7 +2,7 @@
 import "@/styles/globals.css";
 
 // components
-import { Navbar } from "@/components/layout";
+import { Navbar, Footer } from "@/components/layout";
 
 // data
 export { metadata } from "@/common/data";
@@ -22,6 +22,7 @@ export default function RootLayout({
           <div className="contents">
             <Navbar />
             {children}
+            <Footer />
           </div>
         </div>
       </body>

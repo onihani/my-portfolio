@@ -1,4 +1,4 @@
-import { Home, Folder, Briefcase, Wrench, SquarePen } from "lucide-react";
+import { Home, User, SquarePen } from "lucide-react";
 
 export const navigation = [
   {
@@ -7,20 +7,11 @@ export const navigation = [
     icon: Home,
   },
   {
-    href: "/projects",
-    label: "Projects",
-    icon: Folder,
+    href: "/about",
+    label: "About Me",
+    icon: User,
   },
-  {
-    href: "/experience",
-    label: "Experience",
-    icon: Briefcase,
-  },
-  {
-    href: "/tools",
-    label: "Tools",
-    icon: Wrench,
-  },
+
   {
     href: "/blog",
     label: "Blog",

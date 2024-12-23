@@ -1,1 +1,1 @@
-export * from "./project-card";
+export { default as Works } from "./works";

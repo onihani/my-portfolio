@@ -10,10 +10,10 @@ const Info = () => {
   return (
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-1">
-        <h1 className="text-background text-3xl font-semibold font-bricolageGrotesque">
+        <h1 className="text-background text-2xl font-semibold">
           Nathaniel Quansah
         </h1>
-        <h4 className={`text-black/80 text-lg font-medium text-center`}>
+        <h4 className={`text-black/80 text-lg font-medium text-center font-bricolageGrotesque`}>
           Software Engineer
         </h4>
       </div>
@@ -21,7 +21,7 @@ const Info = () => {
         <div className="flex">
           <Link
             href="mailto:n.bongo40@gmail.com"
-            className="bg-secondary py-2 px-3.5 flex items-center gap-2 rounded-xl"
+            className="bg-background py-2 px-4 flex items-center gap-2 rounded-xl border border-secondary"
           >
             <Mail size={20} />
             <span className="text-sm font-bricolageGrotesque">
@@ -33,7 +33,7 @@ const Info = () => {
           {socials.map(({ href, icon: SocialIcon, label }) => (
             <Link key={label} href={href}>
               <span className="sr-only">{label}</span>
-              <SocialIcon size={24} color="black" />
+              <SocialIcon size={20} color="black" />
             </Link>
           ))}
         </div>

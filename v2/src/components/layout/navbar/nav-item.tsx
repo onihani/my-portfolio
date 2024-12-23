@@ -10,7 +10,7 @@ import { NavigationItem } from "@/common/data";
 
 const NavItem: FC<NavigationItem> = ({ href, icon: IconComponent, label }) => {
   return (
-    <Tooltip.Provider delayDuration={500}>
+    <Tooltip.Provider delayDuration={350}>
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
           <Link
