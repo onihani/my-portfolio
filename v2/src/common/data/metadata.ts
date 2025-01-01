@@ -30,7 +30,13 @@ export const metadata: Metadata = {
 		follow: true,
 	},
 	icons: {
-		icon: '/favicon.ico',
-		apple: '/apple-touch-icon.png',
+		icon: {
+			url: '/favicon.ico',
+			type: 'image/x-icon',
+		},
+		apple: {
+			url: '/apple-touch-icon.png',
+			type: 'image/png',
+		},
 	},
 };
