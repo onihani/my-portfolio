@@ -3,6 +3,9 @@ import WorkHistoryCard from "./work-history-card";
 // shared components
 import { SectionHeader } from "@/components/shared";
 
+// data
+import { experiences } from "@/common/data";
+
 const Experience = () => {
   return (
     <section className="relative w-full h-min flex flex-col gap-8 overflow-visible">
@@ -11,10 +14,10 @@ const Experience = () => {
         <SectionHeader title="6+ Years Of" subTitle="Experience" />
         {/* work historys */}
         <div className="w-full flex flex-col gap-10">
-          <WorkHistoryCard />
-          <WorkHistoryCard />
-          <WorkHistoryCard />
-          <WorkHistoryCard />
+          {/* skill */}
+          {experiences.map((experience) => (
+            <WorkHistoryCard key={experience.organization} {...experience} />
+          ))}
         </div>
       </div>
     </section>

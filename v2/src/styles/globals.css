@@ -16,3 +16,9 @@ html {
 body {
   @apply bg-background text-foreground font-poppins 
 }
+
+.prose {
+  ul {
+    @apply list-disc pl-6;
+  }
+}

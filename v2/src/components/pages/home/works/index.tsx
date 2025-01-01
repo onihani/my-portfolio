@@ -1,8 +1,10 @@
-
 // local components
 import ProjectCard from "./project-card";
 // shared components
 import { SectionHeader } from "@/components/shared";
+
+// data
+import { projects } from "@/common/data";
 
 const Works = () => {
   return (
@@ -12,10 +14,9 @@ const Works = () => {
         <SectionHeader title="Featured" subTitle="Projects" />
         {/* projects */}
         <div className="flex flex-col gap-12">
-         <ProjectCard />
-         <ProjectCard />
-         <ProjectCard />
-         <ProjectCard />
+          {projects.map((project) => (
+            <ProjectCard key={project.title} {...project} />
+          ))}
         </div>
       </div>
     </section>

@@ -9,8 +9,8 @@ type SectionHeaderProps = {
 
 const SectionHeader: FC<SectionHeaderProps> = ({ title, subTitle }) => {
   return (
-    <div className="relative w-full h-auto whitespace-pre-wrap break-words flex flex-shrink-0">
-      <h1 className="inline-block text-6xl font-bold leading-[100%] uppercase">
+    <div className="relative w-full h-auto whitespace-pre-wrap break-words flex justify-center lg:justify-start flex-shrink-0">
+      <h1 className="inline-block text-center lg:text-start text-4xl lg:text-6xl font-bold leading-[100%] uppercase">
         {title}
 
         {subTitle && (

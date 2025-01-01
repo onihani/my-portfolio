@@ -3,6 +3,9 @@ import Article from "./article";
 // shared components
 import { SectionHeader } from "@/components/shared";
 
+// data
+import { articles } from "@/common/data";
+
 const BlogSection = () => {
   return (
     <section className="relative w-full h-min flex flex-col gap-8 overflow-visible">
@@ -12,10 +15,9 @@ const BlogSection = () => {
         {/* acticles */}
         <div className="w-full grid lg:grid-cols-2 gap-y-12 gap-x-10">
           {/* article */}
-          <Article />
-          <Article />
-          <Article />
-          <Article />
+          {articles.map((article) => (
+            <Article key={article.title} {...article} />
+          ))}
         </div>
       </div>
     </section>

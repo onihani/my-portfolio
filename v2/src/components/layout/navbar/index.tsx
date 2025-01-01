@@ -1,3 +1,5 @@
+"use client";
+
 // components
 import NavItem from "./nav-item";
 

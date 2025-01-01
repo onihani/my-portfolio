@@ -23,6 +23,12 @@ export default {
         poppins: "var(--font-poppins)",
         bricolageGrotesque: "var(--font-bricolage-grotesque)",
       },
+      width: {
+        "15": "3.75rem",
+      },
+      height: {
+        "15": "3.75rem",
+      },
       boxShadow: {
         "3d": "rgba(255, 255, 255, 0.02) 0px -3px 0px 0px inset, rgba(255, 255, 255, 0.03) 0px 0px 0px 2px inset, rgba(0, 0, 0, 0.3) 0px 4px 2px 0px inset, rgba(0, 0, 0, 0.2) 0px 0px 24px 4px inset, rgba(0, 0, 0, 0.5) 0px 1px 3px 0px",
         "3d-light":

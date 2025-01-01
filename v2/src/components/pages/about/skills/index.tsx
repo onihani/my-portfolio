@@ -3,6 +3,9 @@ import SkillCard from "./skill-card";
 // shared components
 import { SectionHeader } from "@/components/shared";
 
+// data
+import { skills } from "@/common/data";
+
 const Skills = () => {
   return (
     <section className="relative w-full h-min flex flex-col gap-8 overflow-visible">
@@ -12,12 +15,9 @@ const Skills = () => {
         {/* tools */}
         <div className="w-full grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
           {/* skill */}
-          <SkillCard />
-          <SkillCard />
-          <SkillCard />
-          <SkillCard />
-          <SkillCard />
-          <SkillCard />
+          {skills.map((skill) => (
+            <SkillCard key={skill.title} {...skill} />
+          ))}
         </div>
       </div>
     </section>

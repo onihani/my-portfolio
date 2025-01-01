@@ -11,7 +11,6 @@ export const navigation = [
     label: "About Me",
     icon: User,
   },
-
   {
     href: "/blog",
     label: "Blog",

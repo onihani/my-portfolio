@@ -2,25 +2,36 @@
 import { FC } from "react";
 // next
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 // imports
 import * as Tooltip from "@radix-ui/react-tooltip";
+
+// helpers
+import { classnames } from "@/common/helpers";
 
 // data
 import { NavigationItem } from "@/common/data";
 
 const NavItem: FC<NavigationItem> = ({ href, icon: IconComponent, label }) => {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+
   return (
     <Tooltip.Provider delayDuration={350}>
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
           <Link
             href={href}
+            scroll={false}
             className="group py-1.5 px-2 hover:fade-in-0 flex items-center justify-center gap-2 rounded-full transition-colors duration-700 ease-in-out"
           >
             <IconComponent
               size={20}
               strokeWidth={1.5}
-              className="text-white/90"
+              className={classnames(
+                "group-hover:text-coral transition-colors duration-300 ease-in-out",
+                isActive ? "text-coral" : "text-white/90"
+              )}
             />
           </Link>
         </Tooltip.Trigger>
