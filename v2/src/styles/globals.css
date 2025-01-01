@@ -1,0 +1,24 @@
+/* tailwind */
+@import url("./tailwind.css");
+
+:root {
+  --background: 17 17 17;
+  --foreground: 255 255 255;
+  --secondary: 30 30 30;
+  --accent: 160 160 160;
+  --coral: 255 127 80;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-background text-foreground font-poppins 
+}
+
+.prose {
+  ul {
+    @apply list-disc pl-6;
+  }
+}
