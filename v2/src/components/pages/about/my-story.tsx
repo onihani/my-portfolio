@@ -8,7 +8,7 @@ const MyStory = () => {
         {/* header */}
         <SectionHeader title="My Story" />
         {/* description */}
-        <div className="flex flex-col gap-6 text-white/80 text-lg font-medium font-bricolageGrotesque leading-[145%]">
+        <div className="flex flex-col gap-6 text-white/80 lg:text-lg font-medium font-bricolageGrotesque leading-[145%]">
           <p>
             I’m a Full Stack Developer with over 6+ years of experience,
             specializing in modern technologies like Go, JavaScript, TypeScript,

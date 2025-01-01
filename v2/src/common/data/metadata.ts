@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 		title: 'Nathaniel Quansah • Software Engineer',
 		description: 'I bring ideas to life and help them scale, crafting innovative digital experiences and non-custodial apps with a focus on usability, scalability, and impact.',
 		images: ['https://yourdomain.com/og-image.jpg'], // Replace with your OG image URL
-		site: '@yourTwitterHandle', // Replace with your Twitter username
+		site: '@onihani', // Replace with your Twitter username
 	},
 	robots: {
 		index: true,
