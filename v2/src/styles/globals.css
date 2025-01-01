@@ -14,11 +14,9 @@ html {
 }
 
 body {
-  @apply bg-background text-foreground font-poppins 
+  @apply bg-background text-foreground font-poppins;
 }
 
-.prose {
-  ul {
-    @apply list-disc pl-6;
-  }
+.prose ul {
+  @apply list-disc pl-6;
 }
