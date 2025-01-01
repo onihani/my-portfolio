@@ -17,7 +17,7 @@ Hey there! This repo’s got all the versions of my portfolio as I’ve worked o
 
 1. Clone this repo:
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/Onihani/my-portfolio.git
    ```
 
 2. Jump into the version you’re interested in:
