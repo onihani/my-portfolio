@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 		type: 'website',
 		images: [
 			{
-				url: 'https://www.nathanielquansah.com/images/me.jpeg',
+				url: 'https://www.nathanielquansah.com/images/me-1-1.jpeg',
 				width: 1200,
 				height: 630,
 				alt: 'Nathaniel Quansah • Software Engineer',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 		card: 'summary_large_image',
 		title: 'Nathaniel Quansah • Software Engineer',
 		description: 'I bring ideas to life and help them scale, crafting innovative digital experiences and non-custodial apps with a focus on usability, scalability, and impact.',
-		images: ['https://www.nathanielquansah.com/images/me.jpeg'],
+		images: ['https://www.nathanielquansah.com/images/me-1-1.jpeg'],
 		site: '@onihani', 
 	},
 	robots: {
