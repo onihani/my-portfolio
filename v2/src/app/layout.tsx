@@ -13,6 +13,10 @@ export { metadata } from "@/common/data";
 // fonts
 import { poppins, bricolageGrotesque } from "@/common/fonts";
 
+if (!process.env.FIREBASE_MEASUREMENT_ID) {
+  throw new Error("FIREBASE_MEASUREMENT_ID is not defined");
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
