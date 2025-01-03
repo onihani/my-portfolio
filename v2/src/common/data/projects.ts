@@ -9,7 +9,7 @@ export const projects = [
   {
     title: "Medtrack",
     description:
-      "At MedTrack, we're creating a progressive health-data solution for Africa's 1 billion citizens by decentralizing health data and making more accessible to patients and healthcare providers.",
+      "At MedTrack, we're creating a progressive health-data solution for Africa's 1 billion citizens by decentralizing health data and making it more accessible to patients and healthcare providers.",
     image: medtrack_png,
     link: {
       href: "https://medtrack.africa",
