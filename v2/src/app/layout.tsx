@@ -1,3 +1,6 @@
+// next
+import Script from "next/script";
+
 // imports
 import { GoogleAnalytics } from "@next/third-parties/google";
 
@@ -36,6 +39,11 @@ export default function RootLayout({
         </div>
       </body>
       <GoogleAnalytics gaId={process.env.FIREBASE_MEASUREMENT_ID!} />
+      <Script
+        defer
+        src="https://umami-production-4add.up.railway.app/script.js"
+        data-website-id="c06d6829-676c-4947-ab06-11e2874bf0bf"
+      />
     </html>
   );
 }
