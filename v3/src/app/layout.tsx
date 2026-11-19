@@ -48,13 +48,27 @@ export const viewport: Viewport = {
 	],
 }
 
+// Runs before paint so a chosen theme never flashes the other one
+const themeScript = `(()=>{try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}})()`
+
 const isProduction = process.env.VERCEL_ENV === 'production'
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
-	<html lang="en" className={hostGrotesk.variable}>
+	<html lang="en" className={hostGrotesk.variable} suppressHydrationWarning>
+		<head>
+			<script dangerouslySetInnerHTML={{ __html: themeScript }} />
+		</head>
 		<body className="layout min-h-dvh grid-rows-[auto_1fr_auto]">
+			<a
+				href="#content"
+				className="sr-only rounded-full bg-ink px-4 py-2 text-bg focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-10"
+			>
+				Skip to content
+			</a>
 			<SiteHeader />
-			<main className="layout col-[full]! content-start pt-16 md:pt-24">{children}</main>
+			<main id="content" className="layout col-[full]! content-start pt-16 md:pt-24">
+				{children}
+			</main>
 			<SiteFooter />
 			<PersonJsonLd />
 			{isProduction ? (

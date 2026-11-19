@@ -1,4 +1,7 @@
-import { ArrowUpRightIcon } from '@/components/icons'
+import Image from 'next/image'
+import Link from 'next/link'
+
+import { ArrowRightIcon, ArrowUpRightIcon, GitHubIcon } from '@/components/icons'
 import { ProjectEntry } from '@/components/project-entry'
 import { earlierProjects, projects } from '@/content/projects'
 import { site } from '@/content/site'
@@ -15,23 +18,28 @@ const HomePage = () => (
 			<p className="enter mt-1 text-[1.1875rem] text-muted md:text-[1.375rem]" style={{ '--i': 1 }}>
 				{site.headline}
 			</p>
-			<p className="enter mt-6 max-w-[34rem] text-ink-2" style={{ '--i': 2 }}>
-				I build payments and web platforms, from government licensing to health records and fintech.
-				Most of what I make is below.
-			</p>
-			<a
-				href={site.building.href}
-				target="_blank"
-				rel="noreferrer"
-				className="enter press mt-6 inline-flex items-center gap-2.5 rounded-full bg-surface py-1.5 pr-3 pl-3.5 text-[0.9375rem] shadow-[0_0_0_1px_var(--line)]"
+			<div className="enter mt-8 grid max-w-[36rem] gap-4 text-ink-2" style={{ '--i': 2 }}>
+				<p>
+					I&apos;ve been building for the web since 2020, from a national licensing portal for
+					Ghana&apos;s tourism businesses to health records and real estate software.
+				</p>
+				<p>
+					Right now I&apos;m building{' '}
+					<a href={site.building.href} target="_blank" rel="noreferrer" className="link text-ink">
+						WayaSend
+					</a>
+					, USD cards and cross-border transfers for people across Africa. I work mostly in Go and
+					TypeScript, on both the backend and the frontend.
+				</p>
+			</div>
+			<Link
+				href="/about"
+				className="enter quiet-link group mt-6 inline-flex items-center gap-1.5 text-[0.9375rem]"
 				style={{ '--i': 3 }}
 			>
-				<span className="live-dot" aria-hidden="true" />
-				<span>
-					Building <span className="font-medium">{site.building.name}</span>
-				</span>
-				<ArrowUpRightIcon className="size-3.5 text-muted" />
-			</a>
+				More about me
+				<ArrowRightIcon className="size-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
+			</Link>
 		</section>
 
 		<section aria-labelledby="work" className="layout col-[full]! mt-24 md:mt-32">
@@ -45,31 +53,61 @@ const HomePage = () => (
 			</div>
 		</section>
 
-		<section aria-labelledby="earlier" className="mt-24 md:mt-32">
-			<h2 id="earlier" className="text-[1.25rem] font-medium">
-				Earlier
+		<section aria-labelledby="more-projects" className="mt-24 md:mt-32">
+			<h2 id="more-projects" className="text-[1.25rem] font-medium">
+				More projects
 			</h2>
 			<ul className="mt-6 grid gap-5">
-				{earlierProjects.map((project) => (
-					<li key={project.name} className="grid gap-0.5">
-						<div className="flex items-baseline justify-between gap-4">
+				{earlierProjects.map((project) => {
+					const content = (
+						<>
+							{project.logo ? (
+								<Image
+									src={project.logo}
+									alt=""
+									width={36}
+									height={36}
+									className="logo size-9 rounded-[9px]"
+								/>
+							) : (
+								<span
+									aria-hidden="true"
+									className="logo grid size-9 place-items-center rounded-[9px] bg-surface text-ink"
+								>
+									<GitHubIcon className="size-[18px]" />
+								</span>
+							)}
+							<span className="min-w-0 flex-1">
+								<span className="flex items-center gap-1 font-medium">
+									{project.name}
+									{project.link ? (
+										<ArrowUpRightIcon className="size-3.5 text-muted transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+									) : null}
+								</span>
+								<span className="block text-[0.9375rem] text-muted">{project.description}</span>
+							</span>
+							<span className="shrink-0 self-start pt-0.5 text-[0.9375rem] text-muted">
+								{project.context}
+							</span>
+						</>
+					)
+					return (
+						<li key={project.name}>
 							{project.link ? (
 								<a
 									href={project.link.href}
 									target="_blank"
 									rel="noreferrer"
-									className="link font-medium"
+									className="group flex items-center gap-4"
 								>
-									{project.name}
+									{content}
 								</a>
 							) : (
-								<span className="font-medium">{project.name}</span>
+								<div className="flex items-center gap-4">{content}</div>
 							)}
-							<span className="shrink-0 text-[0.9375rem] text-muted">{project.context}</span>
-						</div>
-						<p className="text-ink-2">{project.description}</p>
-					</li>
-				))}
+						</li>
+					)
+				})}
 			</ul>
 		</section>
 	</>

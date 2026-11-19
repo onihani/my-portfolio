@@ -8,26 +8,45 @@
  */
 
 :root {
-	color-scheme: light dark;
+	color-scheme: light;
 	--bg: #f5f5f7;
 	--surface: #ffffff;
 	--ink: #1d1d1f;
 	--ink-2: #424245;
 	--muted: #6e6e73;
 	--line: #dcdce1;
-	--live: #34c759;
+	--panel-shade: 0%;
+	--panel-ring: transparent;
+	--logo-ring: rgb(0 0 0 / 0.08);
 }
 
+/* Dark follows the device unless light was chosen, or applies when dark was chosen */
 @media (prefers-color-scheme: dark) {
-	:root {
+	:root:not([data-theme='light']) {
+		color-scheme: dark;
 		--bg: #000000;
 		--surface: #1c1c1e;
 		--ink: #f5f5f7;
 		--ink-2: #d1d1d6;
 		--muted: #98989d;
 		--line: #2c2c2e;
-		--live: #30d158;
+		--panel-shade: 14%;
+		--panel-ring: rgb(255 255 255 / 0.06);
+		--logo-ring: rgb(255 255 255 / 0.1);
 	}
+}
+
+:root[data-theme='dark'] {
+	color-scheme: dark;
+	--bg: #000000;
+	--surface: #1c1c1e;
+	--ink: #f5f5f7;
+	--ink-2: #d1d1d6;
+	--muted: #98989d;
+	--line: #2c2c2e;
+	--panel-shade: 14%;
+	--panel-ring: rgb(255 255 255 / 0.06);
+	--logo-ring: rgb(255 255 255 / 0.1);
 }
 
 @theme inline {
@@ -69,7 +88,7 @@
 	}
 
 	::selection {
-		background: color-mix(in oklab, var(--live) 35%, transparent);
+		background: color-mix(in oklab, var(--ink) 16%, transparent);
 	}
 
 	:focus-visible {
@@ -108,13 +127,23 @@
 		transition: text-decoration-color 200ms var(--ease-out);
 	}
 
+	/* Underline appears only on hover, for lists where every row is a link */
+	.hover-link {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-decoration-color: transparent;
+		text-underline-offset: 0.22em;
+		transition: text-decoration-color 200ms var(--ease-out);
+	}
+
 	.quiet-link {
 		color: var(--muted);
 		transition: color 200ms var(--ease-out);
 	}
 
 	@media (hover: hover) and (pointer: fine) {
-		.link:hover {
+		.link:hover,
+		.hover-link:hover {
 			text-decoration-color: currentColor;
 		}
 
@@ -132,57 +161,20 @@
 		transform: scale(0.97);
 	}
 
-	/* Live status dot with a soft, slow ring */
-	.live-dot {
-		position: relative;
-		display: inline-block;
-		width: 0.5rem;
-		height: 0.5rem;
-		border-radius: 999px;
-		background: var(--live);
-	}
-
-	.live-dot::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		border-radius: inherit;
-		background: var(--live);
-		animation: live-ring 2.4s var(--ease-out) infinite;
-	}
-
-	@keyframes live-ring {
-		from {
-			transform: scale(1);
-			opacity: 0.55;
-		}
-		70%,
-		to {
-			transform: scale(2.6);
-			opacity: 0;
-		}
-	}
-
 	/* Project panel: the project's brand colour with its screenshots on top */
 	.panel {
 		--pad: clamp(1.25rem, 5vw, 3.5rem);
 		position: relative;
 		overflow: hidden;
 		border-radius: 16px;
-		background: var(--panel);
+		background: color-mix(in oklab, var(--panel), black var(--panel-shade));
+		box-shadow: inset 0 0 0 1px var(--panel-ring);
 		padding-block: var(--pad);
 	}
 
 	/* Leave room under the screenshots for the step controls */
 	.panel:has(.strip-controls) {
 		padding-bottom: max(var(--pad), 3.5rem);
-	}
-
-	@media (prefers-color-scheme: dark) {
-		.panel {
-			background: color-mix(in oklab, var(--panel) 86%, black);
-			box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.06);
-		}
 	}
 
 	.strip {
@@ -282,13 +274,24 @@
 	.logo {
 		flex: none;
 		border-radius: 6px;
-		box-shadow: 0 0 0 1px rgb(0 0 0 / 0.08);
+		box-shadow: 0 0 0 1px var(--logo-ring);
 	}
 
-	@media (prefers-color-scheme: dark) {
-		.logo {
-			box-shadow: 0 0 0 1px rgb(255 255 255 / 0.1);
-		}
+	/* Theme toggle: the outgoing icon shrinks and blurs away as the other arrives */
+	.theme-icon {
+		opacity: 0;
+		transform: scale(0.6) rotate(-30deg);
+		filter: blur(2px);
+		transition:
+			opacity 200ms var(--ease-out),
+			transform 300ms var(--ease-out),
+			filter 200ms var(--ease-out);
+	}
+
+	.theme-icon[data-shown='true'] {
+		opacity: 1;
+		transform: none;
+		filter: none;
 	}
 
 	/* First paint: content settles into place, one piece after another */
@@ -322,9 +325,12 @@
 
 	@media (prefers-reduced-motion: reduce) {
 		.enter,
-		.rise,
-		.live-dot::after {
+		.rise {
 			animation: none;
+		}
+
+		.theme-icon {
+			transition: none;
 		}
 
 		.shot img,
@@ -428,7 +434,18 @@
 }
 
 @media (prefers-color-scheme: dark) {
-	.prose pre span {
+	:root:not([data-theme='light']) .prose pre span {
 		color: var(--shiki-dark);
 	}
+}
+
+:root[data-theme='dark'] .prose pre span {
+	color: var(--shiki-dark);
+}
+
+/* Theme switch: a quick crossfade of the whole page */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 280ms;
+	animation-timing-function: var(--ease-out);
 }

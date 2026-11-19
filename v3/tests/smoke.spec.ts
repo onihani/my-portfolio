@@ -76,6 +76,17 @@ test('the article reads on-site with highlighted code', async ({ page }) => {
 	expect(errors).toEqual([])
 })
 
+test('the theme toggle switches and remembers the choice', async ({ page }) => {
+	await page.emulateMedia({ colorScheme: 'light' })
+	await page.goto('/')
+	await page.getByRole('button', { name: 'Switch to dark mode' }).click()
+	await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+	await page.reload()
+	await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+	await page.getByRole('button', { name: 'Switch to light mode' }).click()
+	await expect(page.locator('html')).not.toHaveAttribute('data-theme', /.+/)
+})
+
 test('unknown pages return 404', async ({ page }) => {
 	const response = await page.goto('/does-not-exist')
 	expect(response?.status()).toBe(404)

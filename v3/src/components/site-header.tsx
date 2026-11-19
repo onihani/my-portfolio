@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+import { ThemeToggle } from '@/components/theme-toggle'
 import { navigation, site } from '@/content/site'
 import portrait from '../../public/images/me-1-1.jpeg'
 
@@ -25,26 +26,29 @@ export const SiteHeader = () => {
 					className="size-9 rounded-full object-cover"
 				/>
 			</Link>
-			<nav aria-label="Main">
-				<ul className="flex items-center gap-1 text-[0.9375rem]">
-					{navigation.map((item) => {
-						const current = isCurrent(pathname, item.href)
-						return (
-							<li key={item.href}>
-								<Link
-									href={item.href}
-									aria-current={current ? 'page' : undefined}
-									className={`press block rounded-full px-3 py-2.5 transition-colors duration-200 ${
-										current ? 'text-ink' : 'text-muted hover:text-ink'
-									}`}
-								>
-									{item.label}
-								</Link>
-							</li>
-						)
-					})}
-				</ul>
-			</nav>
+			<div className="-mr-2 flex items-center gap-1">
+				<nav aria-label="Main">
+					<ul className="flex items-center text-[0.9375rem]">
+						{navigation.map((item) => {
+							const current = isCurrent(pathname, item.href)
+							return (
+								<li key={item.href}>
+									<Link
+										href={item.href}
+										aria-current={current ? 'page' : undefined}
+										className={`press block rounded-full px-3 py-2.5 transition-colors duration-200 ${
+											current ? 'text-ink' : 'text-muted hover:text-ink'
+										}`}
+									>
+										{item.label}
+									</Link>
+								</li>
+							)
+						})}
+					</ul>
+				</nav>
+				<ThemeToggle />
+			</div>
 		</header>
 	)
 }

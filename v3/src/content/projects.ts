@@ -24,6 +24,8 @@ import medtrackLogo from '@/assets/logos/medtrack.png'
 import soccersmLogo from '@/assets/logos/soccersm.png'
 import rehobothLogo from '@/assets/logos/rehoboth.png'
 import gasuLogo from '@/assets/logos/gasu.png'
+import bashtechLogo from '@/assets/logos/bashtech.png'
+import hurisoftLogo from '@/assets/logos/hurisoft.png'
 
 export const projects: Array<Project> = [
 	{
@@ -136,20 +138,29 @@ export const earlierProjects: Array<EarlierProject> = [
 	{
 		name: 'Jodi Drilling ERP',
 		context: 'Bashtech',
-		description: 'Safety, HR and payroll for a drilling services company',
+		description: 'Safety, HR and payroll for a drilling services company.',
 		link: null,
+		logo: bashtechLogo,
 	},
 	{
 		name: 'Kwantu',
 		context: 'Bashtech',
-		description: 'Luxury vehicle and chauffeur booking',
+		description: 'Luxury vehicle and chauffeur booking.',
 		link: null,
+		logo: bashtechLogo,
 	},
-	{ name: 'Ballot Bloc', context: 'Tezos', description: 'Transparent onchain voting', link: null },
+	{
+		name: 'Ballot Bloc',
+		context: 'Hurisoft',
+		description: 'Transparent onchain voting on Tezos.',
+		link: null,
+		logo: hurisoftLogo,
+	},
 	{
 		name: 'go-tweet',
 		context: 'Open source',
-		description: 'A command-line tool for downloading videos from X',
+		description: 'A command-line tool for downloading videos from X.',
 		link: { label: 'GitHub', href: 'https://github.com/onihani/go-tweet' },
+		logo: null,
 	},
 ]

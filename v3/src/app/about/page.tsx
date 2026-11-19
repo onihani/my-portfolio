@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 
 import { education, experience } from '@/content/experience'
-import { links, site } from '@/content/site'
+import { site } from '@/content/site'
 import portrait from '../../../public/images/me.jpeg'
 
 export const metadata: Metadata = {
@@ -82,7 +82,7 @@ const AboutPage = () => (
 						<div className="min-w-0 flex-1">
 							<p className="font-medium">
 								{entry.href ? (
-									<a href={entry.href} target="_blank" rel="noreferrer" className="link">
+									<a href={entry.href} target="_blank" rel="noreferrer" className="hover-link">
 										{entry.company}
 									</a>
 								) : (
@@ -111,25 +111,6 @@ const AboutPage = () => (
 						{entry.period ? (
 							<p className="shrink-0 text-[0.9375rem] text-muted tabular-nums">{entry.period}</p>
 						) : null}
-					</li>
-				))}
-			</ul>
-		</section>
-
-		<section aria-labelledby="elsewhere" className="mt-20">
-			<h2 id="elsewhere" className="text-[1.25rem] font-medium">
-				Elsewhere
-			</h2>
-			<ul className="mt-4 -ml-2 flex flex-wrap">
-				{links.map((link) => (
-					<li key={link.label}>
-						<a
-							href={link.href}
-							className="link inline-block px-2 py-1.5"
-							{...(link.href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})}
-						>
-							{link.label}
-						</a>
 					</li>
 				))}
 			</ul>

@@ -25,9 +25,12 @@ export type Project = {
 
 export type EarlierProject = {
 	name: string
+	/** Where it was built: a company, or open source */
 	context: string
 	description: string
 	link: ExternalLink | null
+	/** The logo of the company it was built at; null shows the GitHub mark */
+	logo: StaticImageData | null
 }
 
 export type ExperienceEntry = {
