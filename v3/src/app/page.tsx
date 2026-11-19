@@ -44,7 +44,7 @@ const HomePage = () => (
 
 		<section aria-labelledby="work" className="layout col-[full]! mt-24 md:mt-32">
 			<h2 id="work" className="enter text-[1.25rem] font-medium" style={{ '--i': 4 }}>
-				Work
+				Selected work
 			</h2>
 			<div className="wide mt-8 grid gap-16 md:gap-24">
 				{projects.map((project, index) => (

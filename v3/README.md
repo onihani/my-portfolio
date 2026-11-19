@@ -16,11 +16,11 @@ npm run test:e2e   # Playwright smoke tests (run after a build)
 Everything lives in `src/content/`:
 
 - `site.ts`: name, headline, links
-- `projects.ts`: work (screenshots, logo, brand colour) and earlier projects
-- `experience.ts`: the About page's experience and education
+- `projects.ts`: work (screenshots, logo, brand colour) and more projects
+- `experience.ts`: the About page's experience list
 - `writing.ts` + `writing/*.md`: articles, rendered on-site
 
-To add a project, drop screenshots into `src/assets/work/<name>/` (WebP, about 2560px wide) and a 96px square logo into `src/assets/logos/`, import them in `projects.ts` and add an entry with the project's brand colour. List shots from the landing page through to the app.
+To add a project, drop screenshots into `src/assets/work/<name>/` (WebP, about 2560px wide) and a 96px square logo into `src/assets/logos/`, import them in `projects.ts` and add an entry with the project's brand colour and a `textTone` (`light` for white text on deep colours, `dark` for bright ones; check it reaches 4.5:1). List shots from the landing page through to the app.
 
 ## Deploy
 

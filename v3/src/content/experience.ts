@@ -4,6 +4,9 @@ import wayasendLogo from '@/assets/logos/wayasend.png'
 import bashtechLogo from '@/assets/logos/bashtech.png'
 import medtrackLogo from '@/assets/logos/medtrack.png'
 import hurisoftLogo from '@/assets/logos/hurisoft.png'
+import kendalLogo from '@/assets/logos/kendal.png'
+import developersInVogueLogo from '@/assets/logos/developers-in-vogue.png'
+import fillyCoderLogo from '@/assets/logos/filly-coder.png'
 
 export const experience: Array<ExperienceEntry> = [
 	{
@@ -24,7 +27,7 @@ export const experience: Array<ExperienceEntry> = [
 		company: 'CrowdPad',
 		role: 'Full-stack engineer',
 		period: '2024',
-		logo: null,
+		logo: kendalLogo,
 		href: 'https://www.kendal.ai',
 	},
 	{
@@ -45,23 +48,14 @@ export const experience: Array<ExperienceEntry> = [
 		company: 'Developers In Vogue',
 		role: 'Lead tutor',
 		period: '2022',
-		logo: null,
-		href: null,
+		logo: developersInVogueLogo,
+		href: 'https://developersinvogue.org',
 	},
 	{
 		company: 'Filly Coder',
 		role: 'Web developer',
 		period: '2020 – 2021',
-		logo: null,
-		href: null,
-	},
-]
-
-export const education = [
-	{ name: 'Accra Technical University', detail: 'HND, Computer Science', period: '2021 – 2023' },
-	{
-		name: 'Google Africa Developer Scholarship',
-		detail: 'Mobile Web Specialist',
-		period: null,
+		logo: fillyCoderLogo,
+		href: 'https://fillycoder.com',
 	},
 ]

@@ -10,6 +10,9 @@ export type ProjectShot = {
 	alt: string
 }
 
+/** Text colour that reads on a project's panel: white on deep colours, near-black on bright ones */
+export type PanelTextTone = 'light' | 'dark'
+
 export type Project = {
 	slug: string
 	name: string
@@ -18,6 +21,7 @@ export type Project = {
 	logo: StaticImageData
 	/** The project's own brand colour, used for the panel behind its screenshots */
 	color: string
+	textTone: PanelTextTone
 	/** Ordered from the public landing page through to the signed-in app */
 	shots: Array<ProjectShot>
 	note: string | null
@@ -37,7 +41,7 @@ export type ExperienceEntry = {
 	company: string
 	role: string
 	period: string
-	logo: StaticImageData | null
+	logo: StaticImageData
 	href: string | null
 }
 

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 
-import { education, experience } from '@/content/experience'
+import { experience } from '@/content/experience'
 import { site } from '@/content/site'
 import portrait from '../../../public/images/me.jpeg'
 
@@ -11,13 +11,6 @@ export const metadata: Metadata = {
 		'Nathaniel Quansah is a software engineer in Accra, Ghana. Where he has worked and what he is building now.',
 	alternates: { canonical: '/about' },
 }
-
-const initials = (name: string) =>
-	name
-		.split(' ')
-		.slice(0, 2)
-		.map((word) => word[0])
-		.join('')
 
 const AboutPage = () => (
 	<>
@@ -63,22 +56,13 @@ const AboutPage = () => (
 			<ul className="mt-6 grid gap-5">
 				{experience.map((entry) => (
 					<li key={entry.company} className="flex items-center gap-4">
-						{entry.logo ? (
-							<Image
-								src={entry.logo}
-								alt=""
-								width={36}
-								height={36}
-								className="logo size-9 rounded-[9px]"
-							/>
-						) : (
-							<span
-								aria-hidden="true"
-								className="logo grid size-9 place-items-center rounded-[9px] bg-surface text-[0.75rem] font-medium text-muted"
-							>
-								{initials(entry.company)}
-							</span>
-						)}
+						<Image
+							src={entry.logo}
+							alt=""
+							width={36}
+							height={36}
+							className="logo size-9 rounded-[9px]"
+						/>
 						<div className="min-w-0 flex-1">
 							<p className="font-medium">
 								{entry.href ? (
@@ -92,25 +76,6 @@ const AboutPage = () => (
 							<p className="text-[0.9375rem] text-muted">{entry.role}</p>
 						</div>
 						<p className="shrink-0 text-[0.9375rem] text-muted tabular-nums">{entry.period}</p>
-					</li>
-				))}
-			</ul>
-		</section>
-
-		<section aria-labelledby="education" className="mt-20">
-			<h2 id="education" className="text-[1.25rem] font-medium">
-				Education
-			</h2>
-			<ul className="mt-6 grid gap-4">
-				{education.map((entry) => (
-					<li key={entry.name} className="flex items-baseline justify-between gap-4">
-						<div>
-							<p className="font-medium">{entry.name}</p>
-							<p className="text-[0.9375rem] text-muted">{entry.detail}</p>
-						</div>
-						{entry.period ? (
-							<p className="shrink-0 text-[0.9375rem] text-muted tabular-nums">{entry.period}</p>
-						) : null}
 					</li>
 				))}
 			</ul>

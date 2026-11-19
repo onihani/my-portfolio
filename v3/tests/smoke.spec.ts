@@ -14,7 +14,7 @@ test('home shows the intro and the work with screenshots', async ({ page }) => {
 	await page.goto('/')
 	await expect(page).toHaveTitle(/Nathaniel Quansah/)
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Nathaniel Quansah')
-	await expect(page.getByRole('heading', { level: 2, name: 'Work' })).toBeVisible()
+	await expect(page.getByRole('heading', { level: 2, name: 'Selected work' })).toBeVisible()
 	await expect(page.getByRole('heading', { level: 3, name: 'WayaSend' })).toBeVisible()
 	expect(await page.locator('.shot img').count()).toBeGreaterThanOrEqual(10)
 	expect(errors).toEqual([])

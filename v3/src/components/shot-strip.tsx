@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@/components/icons'
 import type { ProjectShot } from '@/content/types'
@@ -10,9 +10,13 @@ type ShotStripProps = {
 	projectName: string
 	shots: Array<ProjectShot>
 	priority: boolean
+	/** The project's name and description, shown above the screenshots */
+	children: ReactNode
+	/** The project's link, shown beside the step controls */
+	action: ReactNode
 }
 
-export const ShotStrip = ({ projectName, shots, priority }: ShotStripProps) => {
+export const ShotStrip = ({ projectName, shots, priority, children, action }: ShotStripProps) => {
 	const stripRef = useRef<HTMLDivElement>(null)
 	const [index, setIndex] = useState(0)
 	const hasMany = shots.length > 1
@@ -49,6 +53,35 @@ export const ShotStrip = ({ projectName, shots, priority }: ShotStripProps) => {
 
 	return (
 		<>
+			<div className="panel-head">
+				{children}
+				<div className="mt-6 flex items-center justify-between gap-4">
+					{action}
+					{hasMany ? (
+						<div className="strip-controls">
+							<button
+								type="button"
+								onClick={() => goTo(index - 1)}
+								disabled={index === 0}
+								aria-label="Previous screenshot"
+							>
+								<ChevronLeftIcon className="size-4" />
+							</button>
+							<span className="min-w-[2.75rem] text-center" aria-live="polite">
+								{index + 1} / {shots.length}
+							</span>
+							<button
+								type="button"
+								onClick={() => goTo(index + 1)}
+								disabled={index === shots.length - 1}
+								aria-label="Next screenshot"
+							>
+								<ChevronRightIcon className="size-4" />
+							</button>
+						</div>
+					) : null}
+				</div>
+			</div>
 			<div
 				ref={stripRef}
 				className="strip"
@@ -77,29 +110,6 @@ export const ShotStrip = ({ projectName, shots, priority }: ShotStripProps) => {
 					</a>
 				))}
 			</div>
-			{hasMany ? (
-				<div className="strip-controls">
-					<button
-						type="button"
-						onClick={() => goTo(index - 1)}
-						disabled={index === 0}
-						aria-label="Previous screenshot"
-					>
-						<ChevronLeftIcon className="size-4" />
-					</button>
-					<span className="min-w-[2.5rem] text-center" aria-live="polite">
-						{index + 1} / {shots.length}
-					</span>
-					<button
-						type="button"
-						onClick={() => goTo(index + 1)}
-						disabled={index === shots.length - 1}
-						aria-label="Next screenshot"
-					>
-						<ChevronRightIcon className="size-4" />
-					</button>
-				</div>
-			) : null}
 		</>
 	)
 }
