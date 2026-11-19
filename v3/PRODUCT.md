@@ -21,7 +21,7 @@ Warm, precise, alive. Quietly confident, never salesy. Feels like a well-made Ap
 - Generic component-library portfolios (shadcn cards, pill navs, badges, gradient blobs).
 - Multi-page "case study" sites with diagrams, metrics and CTAs. Nat rejected this as overcomplicated and AI-looking.
 - Grey, lifeless minimalism with no colour or imagery.
-- Copying aikins.xyz one-to-one. It is a mood reference: plain words, real product visuals, logos, near-text-only lists.
+- Copying given references one-to-one. It is a mood reference: plain words, real product visuals, logos, near-text-only lists.
 
 ## Design Principles
 
