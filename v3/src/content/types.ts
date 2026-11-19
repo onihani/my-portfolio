@@ -8,6 +8,8 @@ export type ExternalLink = {
 export type ProjectShot = {
 	image: StaticImageData
 	alt: string
+	/** A page that can be embedded live in place of the screenshot, on desktop; the screenshot stays as its fallback */
+	liveUrl: string | null
 }
 
 /** Text colour that reads on a project's panel: white on deep colours, near-black on bright ones */
@@ -18,6 +20,8 @@ export type Project = {
 	name: string
 	description: string
 	link: ExternalLink
+	/** Shown in the browser bar above the screenshots; null for projects with no public site */
+	address: string | null
 	logo: StaticImageData
 	/** The project's own brand colour, used for the panel behind its screenshots */
 	color: string
@@ -25,16 +29,6 @@ export type Project = {
 	/** Ordered from the public landing page through to the signed-in app */
 	shots: Array<ProjectShot>
 	note: string | null
-}
-
-export type EarlierProject = {
-	name: string
-	/** Where it was built: a company, or open source */
-	context: string
-	description: string
-	link: ExternalLink | null
-	/** The logo of the company it was built at; null shows the GitHub mark */
-	logo: StaticImageData | null
 }
 
 export type ExperienceEntry = {

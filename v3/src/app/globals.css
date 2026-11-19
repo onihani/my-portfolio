@@ -162,22 +162,23 @@
 	}
 
 	/*
-	 * Project card: the project's brand colour holds its name, description and link,
-	 * and the screenshots rise from the bottom edge.
+	 * Project card, in the project's brand colour.
+	 * Small screens stack the text above the screenshots. Large screens put the text in a
+	 * column on the left and a browser window on the right, flush with the card's edges.
 	 */
 	.panel {
-		--pad: clamp(1.25rem, 5vw, 3.5rem);
+		--pad: clamp(1.25rem, 5vw, 3rem);
 		--panel-bg: color-mix(in oklab, var(--panel), black var(--panel-shade));
 		--on: 255 255 255;
 		--controls-bg: rgb(0 0 0 / 0.16);
 		--controls-hover: rgb(0 0 0 / 0.14);
 		position: relative;
+		display: grid;
 		overflow: hidden;
-		border-radius: 18px;
+		border-radius: 20px;
 		background: var(--panel-bg);
 		box-shadow: inset 0 0 0 1px var(--panel-ring);
 		color: rgb(var(--on));
-		padding-top: var(--pad);
 	}
 
 	.panel[data-tone='dark'] {
@@ -187,14 +188,29 @@
 	}
 
 	.panel-head {
-		padding-inline: var(--pad);
+		display: flex;
+		flex-direction: column;
+		padding: var(--pad) var(--pad) 0;
+	}
+
+	.panel-actions {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-top: 1.5rem;
+	}
+
+	.panel-media {
+		min-width: 0;
+		margin-top: clamp(1.75rem, 5vw, 2.5rem);
 	}
 
 	.panel .logo {
 		box-shadow: 0 0 0 1px rgb(var(--on) / 0.22);
 	}
 
-	/* The link reads as a solid pill in the card's text colour, with the card's colour as its text */
+	/* The link is a solid pill in the card's text colour, with the card's colour as its text */
 	.panel-link {
 		display: inline-flex;
 		align-items: center;
@@ -210,13 +226,12 @@
 
 	.strip {
 		display: flex;
-		gap: clamp(0.75rem, 2vw, 1.25rem);
+		gap: clamp(0.75rem, 2vw, 1rem);
 		overflow-x: auto;
 		overscroll-behavior-x: contain;
 		scroll-snap-type: x mandatory;
 		scroll-padding-inline: var(--pad);
 		padding-inline: var(--pad);
-		margin-top: clamp(1.75rem, 4vw, 2.75rem);
 		scrollbar-width: none;
 	}
 
@@ -233,29 +248,159 @@
 		flex-basis: 92%;
 	}
 
-	/* Screenshots sit flush with the card's bottom edge, so only their top corners are rounded */
+	/* A browser window: a slim bar with the address, then the page. Only the top corners round. */
 	.shot {
-		display: block;
+		display: flex;
+		flex-direction: column;
 		overflow: hidden;
-		border-radius: 10px 10px 0 0;
+		border-radius: 12px 12px 0 0;
 		background: var(--surface);
 		box-shadow:
 			0 0 0 1px rgb(0 0 0 / 0.08),
-			0 -1px 8px rgb(0 0 0 / 0.12);
-		transition: transform 160ms var(--ease-out);
+			0 -2px 8px rgb(0 0 0 / 0.12);
 	}
 
-	.shot img {
-		transition: transform 700ms var(--ease-out);
+	.shot-bar {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		height: 2rem;
+		padding-inline: 4.5rem;
+		border-bottom: 1px solid var(--line);
+		color: var(--muted);
+		font-size: 0.75rem;
+		letter-spacing: 0;
 	}
 
-	.shot:active {
-		transform: scale(0.985);
+	/* A green dot once the live site has loaded, so it reads as the real thing, not a picture */
+	.shot:has(.live-frame[data-loaded='true']) .shot-address::before {
+		content: '';
+		display: inline-block;
+		width: 6px;
+		height: 6px;
+		margin-right: 6px;
+		border-radius: 999px;
+		background: #30d158;
+		vertical-align: 1px;
+	}
+
+	.shot-interact {
+		position: absolute;
+		right: 0.375rem;
+		top: 50%;
+		translate: 0 -50%;
+		padding: 0.1875rem 0.625rem;
+		border-radius: 999px;
+		color: var(--ink);
+		font-weight: 500;
+		transition:
+			background-color 150ms var(--ease-out),
+			transform 160ms var(--ease-out);
+	}
+
+	.shot-interact:active {
+		transform: scale(0.95);
+	}
+
+	.shot-interact[aria-pressed='true'] {
+		background: var(--ink);
+		color: var(--bg);
+	}
+
+	/* Interact only matters where live sites load */
+	@media not ((min-width: 1024px) and (pointer: fine)) {
+		.shot-interact {
+			display: none;
+		}
 	}
 
 	@media (hover: hover) and (pointer: fine) {
-		.shot:hover img {
+		.shot-interact[aria-pressed='false']:hover {
+			background: color-mix(in oklab, var(--ink) 8%, transparent);
+		}
+	}
+
+	.shot-view {
+		position: relative;
+		aspect-ratio: 16 / 10;
+		overflow: hidden;
+	}
+
+	.shot-link {
+		position: absolute;
+		inset: 0;
+	}
+
+	.shot-link img {
+		transition: transform 700ms var(--ease-out);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.shot-link:hover img {
 			transform: scale(1.015);
+		}
+	}
+
+	/* A live site, drawn at desktop size and scaled to the window; clicks pass to the link until Interact */
+	.live-holder {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+	}
+
+	.live-frame {
+		position: absolute;
+		top: 0;
+		left: 0;
+		border: 0;
+		background: #fff;
+		transform: scale(var(--scale));
+		transform-origin: 0 0;
+		opacity: 0;
+		transition: opacity 500ms var(--ease-out);
+	}
+
+	.live-frame[data-loaded='true'] {
+		opacity: 1;
+	}
+
+	.shot-view[data-interactive='true'] .live-holder,
+	.live-frame[data-interactive='true'] {
+		pointer-events: auto;
+	}
+
+	@media (min-width: 1024px) {
+		.panel {
+			grid-template-columns: 22rem minmax(0, 1fr);
+		}
+
+		.panel-head {
+			justify-content: space-between;
+			padding: var(--pad) 2.5rem var(--pad) var(--pad);
+		}
+
+		.panel-actions {
+			margin-top: 2rem;
+		}
+
+		.panel-media {
+			align-self: end;
+			margin-top: 0;
+			padding-top: var(--pad);
+		}
+
+		.strip {
+			padding-inline: 0;
+			scroll-padding-inline: 0;
+		}
+
+		.strip:has(> :nth-child(2)) > * {
+			flex-basis: 100%;
+		}
+
+		.shot {
+			border-radius: 12px 0 0 0;
 		}
 	}
 
@@ -298,17 +443,20 @@
 		}
 	}
 
-	/* Footer socials: each network's mark on its own colour */
+	/* Footer socials: hand-drawn tiles in each network's colour */
 	.social {
-		display: grid;
-		place-items: center;
-		width: 2.25rem;
-		height: 2.25rem;
-		border-radius: 10px;
-		background: var(--social);
-		color: var(--social-ink, #fff);
-		box-shadow: 0 0 0 1px var(--logo-ring);
-		transition: transform 200ms var(--ease-out);
+		display: block;
+		border-radius: 11px;
+		box-shadow:
+			0 1px 2px rgb(0 0 0 / 0.12),
+			0 0 0 1px var(--logo-ring);
+		transition:
+			transform 220ms var(--ease-out),
+			box-shadow 220ms var(--ease-out);
+	}
+
+	.social svg {
+		display: block;
 	}
 
 	.social:active {
@@ -317,7 +465,10 @@
 
 	@media (hover: hover) and (pointer: fine) {
 		.social:hover {
-			transform: translateY(-2px);
+			transform: translateY(-3px);
+			box-shadow:
+				0 6px 8px -4px var(--glow),
+				0 0 0 1px var(--logo-ring);
 		}
 	}
 
@@ -384,15 +535,14 @@
 			transition: none;
 		}
 
-		.shot img,
-		.shot,
+		.shot-link img,
+		.live-frame,
 		.press,
 		.social {
 			transition: none;
 		}
 
-		.shot:hover img,
-		.shot:active,
+		.shot-link:hover img,
 		.press:active,
 		.social:hover,
 		.social:active {

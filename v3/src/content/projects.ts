@@ -1,4 +1,4 @@
-import type { EarlierProject, Project } from '@/content/types'
+import type { Project } from '@/content/types'
 
 import wayasendLanding from '@/assets/work/wayasend/landing.webp'
 import wayasendDashboard from '@/assets/work/wayasend/dashboard.webp'
@@ -25,8 +25,6 @@ import medtrackLogo from '@/assets/logos/medtrack.png'
 import soccersmLogo from '@/assets/logos/soccersm.png'
 import rehobothLogo from '@/assets/logos/rehoboth.png'
 import gasuLogo from '@/assets/logos/gasu.png'
-import bashtechLogo from '@/assets/logos/bashtech.png'
-import hurisoftLogo from '@/assets/logos/hurisoft.png'
 import jodiLogo from '@/assets/logos/jodi.png'
 
 export const projects: Array<Project> = [
@@ -36,17 +34,23 @@ export const projects: Array<Project> = [
 		description:
 			'USD virtual cards and cross-border transfers for people in Africa. Get a dollar card for paying online, top it up from your wallet, and send money to other African countries.',
 		link: { label: 'usewayasend.com', href: 'https://usewayasend.com' },
+		address: 'usewayasend.com',
 		logo: wayasendLogo,
 		color: '#67e55d',
 		textTone: 'dark',
 		shots: [
-			{ image: wayasendLanding, alt: 'WayaSend landing page' },
+			{
+				image: wayasendLanding,
+				alt: 'WayaSend landing page',
+				liveUrl: 'https://staging.usewayasend.com',
+			},
 			{
 				image: wayasendDashboard,
 				alt: 'WayaSend dashboard with wallet balance, a virtual card and transactions',
+				liveUrl: null,
 			},
-			{ image: wayasendCards, alt: 'WayaSend cards page with card funding history' },
-			{ image: wayasendSend, alt: 'WayaSend send money flow' },
+			{ image: wayasendCards, alt: 'WayaSend cards page with card funding history', liveUrl: null },
+			{ image: wayasendSend, alt: 'WayaSend send money flow', liveUrl: null },
 		],
 		note: null,
 	},
@@ -56,13 +60,22 @@ export const projects: Array<Project> = [
 		description:
 			"Ghana's national licensing portal for tourism businesses. Hotels, restaurants and tour operators apply for a licence and follow its progress online, and anyone can check that a business is licensed.",
 		link: { label: 'gta.gov.gh', href: 'https://gta.gov.gh' },
+		address: 'gta.gov.gh',
 		logo: gtaLogo,
 		color: '#f2b01e',
 		textTone: 'dark',
 		shots: [
-			{ image: gtaHome, alt: 'Ghana Tourism Authority portal home page' },
-			{ image: gtaLookup, alt: 'Licence search suggesting a business while typing' },
-			{ image: gtaLicence, alt: 'A verified licence record on the Ghana Tourism Authority portal' },
+			{
+				image: gtaHome,
+				alt: 'Ghana Tourism Authority portal home page',
+				liveUrl: 'https://gta.gov.gh',
+			},
+			{ image: gtaLookup, alt: 'Licence search suggesting a business while typing', liveUrl: null },
+			{
+				image: gtaLicence,
+				alt: 'A verified licence record on the Ghana Tourism Authority portal',
+				liveUrl: null,
+			},
 		],
 		note: null,
 	},
@@ -72,12 +85,17 @@ export const projects: Array<Project> = [
 		description:
 			'Events on the blockchain. Organisers sell tickets and check guests in, attendees keep proof they were there, and anyone can search for events in plain English.',
 		link: { label: 'GitHub', href: 'https://github.com/rendevu-dapp' },
+		address: null,
 		logo: rendevuLogo,
 		color: '#d81848',
 		textTone: 'light',
 		shots: [
-			{ image: rendevuHome, alt: 'Rendevu home page' },
-			{ image: rendevuAiSearch, alt: 'Rendevu explore page with a natural-language search' },
+			{ image: rendevuHome, alt: 'Rendevu home page', liveUrl: null },
+			{
+				image: rendevuAiSearch,
+				alt: 'Rendevu explore page with a natural-language search',
+				liveUrl: null,
+			},
 		],
 		note: 'Explore is shown with sample events.',
 	},
@@ -87,10 +105,11 @@ export const projects: Array<Project> = [
 		description:
 			'A CRM for real estate agents. Listings, leads and WhatsApp conversations live in one place, and listings are published to property portals automatically.',
 		link: { label: 'kendal.ai', href: 'https://www.kendal.ai' },
+		address: 'kendal.ai',
 		logo: kendalLogo,
 		color: '#2f5bff',
 		textTone: 'light',
-		shots: [{ image: kendalHome, alt: 'Kendal AI website' }],
+		shots: [{ image: kendalHome, alt: 'Kendal AI website', liveUrl: 'https://www.kendal.ai' }],
 		note: null,
 	},
 	{
@@ -99,23 +118,12 @@ export const projects: Array<Project> = [
 		description:
 			'The company system for Jodi Drilling Services, a mineral exploration driller in Ghana. Safety reporting, HR and payroll run in one place, with a self-service portal for staff.',
 		link: { label: 'jodidrilling.com', href: 'https://jodidrilling.com' },
+		address: 'erp.jodidrilling.com',
 		logo: jodiLogo,
 		color: '#e02726',
 		textTone: 'light',
-		shots: [{ image: jodiLogin, alt: 'Jodi Drilling ERP sign-in page' }],
+		shots: [{ image: jodiLogin, alt: 'Jodi Drilling ERP sign-in page', liveUrl: null }],
 		note: 'The system is private to staff, so only the sign-in page is shown.',
-	},
-	{
-		slug: 'soccersm',
-		name: 'Soccersm',
-		description:
-			'Football predictions made by AI. Matches in the major leagues come with a prediction and the pre-match analysis behind it.',
-		link: { label: 'soccersm.ai', href: 'https://soccersm.ai' },
-		logo: soccersmLogo,
-		color: '#15804a',
-		textTone: 'light',
-		shots: [{ image: soccersmHome, alt: 'Soccersm predictions page' }],
-		note: null,
 	},
 	{
 		slug: 'medtrack',
@@ -123,12 +131,28 @@ export const projects: Array<Project> = [
 		description:
 			"Health records for Africa, linked to national biometric IDs, so a clinic can find a patient's history from their ID.",
 		link: { label: 'medtrack.africa', href: 'https://medtrack.africa' },
+		address: 'medtrack.africa',
 		logo: medtrackLogo,
 		color: '#3657d4',
 		textTone: 'light',
 		shots: [
-			{ image: medtrackHome, alt: 'Medtrack website' },
-			{ image: medtrackApp, alt: 'Medtrack facility app with a list of patients' },
+			{ image: medtrackHome, alt: 'Medtrack website', liveUrl: 'https://medtrack.africa' },
+			{ image: medtrackApp, alt: 'Medtrack facility app with a list of patients', liveUrl: null },
+		],
+		note: null,
+	},
+	{
+		slug: 'soccersm',
+		name: 'Soccersm',
+		description:
+			'Football predictions made by AI. Matches in the major leagues come with a prediction and the pre-match analysis behind it.',
+		link: { label: 'soccersm.ai', href: 'https://soccersm.ai' },
+		address: 'soccersm.ai',
+		logo: soccersmLogo,
+		color: '#15804a',
+		textTone: 'light',
+		shots: [
+			{ image: soccersmHome, alt: 'Soccersm predictions page', liveUrl: 'https://soccersm.ai' },
 		],
 		note: null,
 	},
@@ -138,10 +162,13 @@ export const projects: Array<Project> = [
 		description:
 			'The website of a US immigration law firm. Clients read about its services and book a consultation online.',
 		link: { label: 'rehobothlawus.com', href: 'https://rehobothlawus.com' },
+		address: 'rehobothlawus.com',
 		logo: rehobothLogo,
 		color: '#652d90',
 		textTone: 'light',
-		shots: [{ image: rehobothHome, alt: 'Rehoboth Law website' }],
+		shots: [
+			{ image: rehobothHome, alt: 'Rehoboth Law website', liveUrl: 'https://rehobothlawus.com' },
+		],
 		note: null,
 	},
 	{
@@ -150,34 +177,11 @@ export const projects: Array<Project> = [
 		description:
 			'The Great African Supporters Union, a pan-African movement that brings together fans of African sport, arts and culture.',
 		link: { label: 'gasu.africa', href: 'https://www.gasu.africa' },
+		address: 'gasu.africa',
 		logo: gasuLogo,
 		color: '#1c1c1e',
 		textTone: 'light',
-		shots: [{ image: gasuHome, alt: 'GASU website' }],
+		shots: [{ image: gasuHome, alt: 'GASU website', liveUrl: 'https://www.gasu.africa' }],
 		note: null,
-	},
-]
-
-export const earlierProjects: Array<EarlierProject> = [
-	{
-		name: 'Kwantu',
-		context: 'Bashtech',
-		description: 'Luxury vehicle and chauffeur booking.',
-		link: null,
-		logo: bashtechLogo,
-	},
-	{
-		name: 'Ballot Bloc',
-		context: 'Hurisoft',
-		description: 'Transparent onchain voting on Tezos.',
-		link: null,
-		logo: hurisoftLogo,
-	},
-	{
-		name: 'go-tweet',
-		context: 'Open source',
-		description: 'A command-line tool for downloading videos from X.',
-		link: { label: 'GitHub', href: 'https://github.com/onihani/go-tweet' },
-		logo: null,
 	},
 ]

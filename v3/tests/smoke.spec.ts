@@ -41,9 +41,12 @@ test('the step controls move through a project', async ({ page, isMobile }) => {
 test('every screenshot link opens a real image', async ({ page }) => {
 	await page.goto('/')
 	const hrefs = await page
-		.locator('a.shot')
+		.locator('a.shot-link')
 		.evaluateAll((anchors) => anchors.map((anchor) => anchor.getAttribute('href') ?? ''))
-	for (const href of hrefs) {
+	// Live previews link to the site itself; the rest open the full screenshot
+	const imageHrefs = hrefs.filter((href) => href.startsWith('/'))
+	expect(imageHrefs.length).toBeGreaterThanOrEqual(8)
+	for (const href of imageHrefs) {
 		const response = await page.request.get(href)
 		expect(response.status(), href).toBe(200)
 		expect(response.headers()['content-type']).toContain('image/')

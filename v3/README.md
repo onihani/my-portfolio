@@ -16,7 +16,7 @@ npm run test:e2e   # Playwright smoke tests (run after a build)
 Everything lives in `src/content/`:
 
 - `site.ts`: name, headline, links
-- `projects.ts`: work (screenshots, logo, brand colour) and more projects
+- `projects.ts`: selected work (screenshots, logo, brand colour, and a `liveUrl` for any screenshot that can be shown as the live site on desktop)
 - `experience.ts`: the About page's experience list
 - `writing.ts` + `writing/*.md`: articles, rendered on-site
 
