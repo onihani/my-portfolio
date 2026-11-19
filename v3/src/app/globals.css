@@ -1,26 +1,735 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+/*
+ * Design tokens.
+ * Two directions share one token contract so the whole site can switch
+ * between them: "paper" (warm, light-first, coral accent, system type with a
+ * serif accent) and "graphite" (cool, dark-first, green accent, Geist).
+ * Each direction defines light and dark values. Theme follows the system
+ * unless the visitor picks one, which sets data-theme on <html>.
+ */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+	--font-body:
+		-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+		sans-serif;
+	--font-heading:
+		-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue',
+		Arial, sans-serif;
+	--font-accent: var(--font-instrument-serif), ui-serif, Georgia, serif;
+	--font-code:
+		ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+	--radius-card: 18px;
+	--radius-shot: 12px;
+
+	color-scheme: light;
+	--bg: #f6f5f1;
+	--surface: #ffffff;
+	--surface-2: #efede7;
+	--ink: #121211;
+	--ink-2: #45443f;
+	--ink-3: #6b6963;
+	--line: #e2e0d9;
+	--line-strong: #cfccc3;
+	--accent: #e8572a;
+	--accent-ink: #b33a12;
+	--accent-soft: #fbe6dc;
+	--success: #1f8a4c;
+	--todo-bg: #fff4c2;
+	--todo-ink: #6b4e00;
+	--shadow-shot:
+		0 1px 2px rgb(18 18 17 / 0.05), 0 8px 24px -8px rgb(18 18 17 / 0.14),
+		0 32px 64px -32px rgb(18 18 17 / 0.18);
+	--shadow-float: 0 1px 1px rgb(18 18 17 / 0.04), 0 8px 24px -12px rgb(18 18 17 / 0.18);
+	--material: rgb(255 255 255 / 0.72);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+	:root:not([data-theme='light']) {
+		color-scheme: dark;
+		--bg: #0f0f0e;
+		--surface: #171716;
+		--surface-2: #1f1f1d;
+		--ink: #eeede9;
+		--ink-2: #bcbab3;
+		--ink-3: #8f8d86;
+		--line: #2a2a27;
+		--line-strong: #3a3a36;
+		--accent: #ff7a4d;
+		--accent-ink: #ff936d;
+		--accent-soft: #2d1b13;
+		--success: #4ade80;
+		--todo-bg: #3a2f05;
+		--todo-ink: #ffe27a;
+		--shadow-shot: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.6);
+		--shadow-float: 0 1px 1px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.7);
+		--material: rgb(23 23 22 / 0.72);
+	}
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+:root[data-theme='dark'] {
+	color-scheme: dark;
+	--bg: #0f0f0e;
+	--surface: #171716;
+	--surface-2: #1f1f1d;
+	--ink: #eeede9;
+	--ink-2: #bcbab3;
+	--ink-3: #8f8d86;
+	--line: #2a2a27;
+	--line-strong: #3a3a36;
+	--accent: #ff7a4d;
+	--accent-ink: #ff936d;
+	--accent-soft: #2d1b13;
+	--success: #4ade80;
+	--todo-bg: #3a2f05;
+	--todo-ink: #ffe27a;
+	--shadow-shot: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.6);
+	--shadow-float: 0 1px 1px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.7);
+	--material: rgb(23 23 22 / 0.72);
+}
+
+/* Direction B: graphite */
+:root[data-direction='graphite'] {
+	--font-body: var(--font-geist), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	--font-heading: var(--font-geist), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	--font-accent: var(--font-geist), -apple-system, sans-serif;
+	--font-code: var(--font-geist-mono), ui-monospace, 'SF Mono', Menlo, monospace;
+	--radius-card: 14px;
+	--radius-shot: 10px;
+	--bg: #f4f5f7;
+	--surface: #ffffff;
+	--surface-2: #eceef1;
+	--ink: #0b0d10;
+	--ink-2: #424852;
+	--ink-3: #5d636d;
+	--line: #dfe2e7;
+	--line-strong: #c9ced6;
+	--accent: #12a150;
+	--accent-ink: #0b7a3b;
+	--accent-soft: #dcf4e6;
+	--material: rgb(255 255 255 / 0.72);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root[data-direction='graphite']:not([data-theme='light']) {
+		--bg: #0a0b0d;
+		--surface: #111317;
+		--surface-2: #171a1f;
+		--ink: #e7e9ec;
+		--ink-2: #aab0b8;
+		--ink-3: #868c96;
+		--line: #22262c;
+		--line-strong: #323840;
+		--accent: #3ddc84;
+		--accent-ink: #4ade80;
+		--accent-soft: #0f2a1c;
+		--material: rgb(17 19 23 / 0.72);
+	}
+}
+
+:root[data-direction='graphite'][data-theme='dark'] {
+	--bg: #0a0b0d;
+	--surface: #111317;
+	--surface-2: #171a1f;
+	--ink: #e7e9ec;
+	--ink-2: #aab0b8;
+	--ink-3: #868c96;
+	--line: #22262c;
+	--line-strong: #323840;
+	--accent: #3ddc84;
+	--accent-ink: #4ade80;
+	--accent-soft: #0f2a1c;
+	--material: rgb(17 19 23 / 0.72);
+}
+
+@theme inline {
+	--color-bg: var(--bg);
+	--color-surface: var(--surface);
+	--color-surface-2: var(--surface-2);
+	--color-ink: var(--ink);
+	--color-ink-2: var(--ink-2);
+	--color-ink-3: var(--ink-3);
+	--color-line: var(--line);
+	--color-line-strong: var(--line-strong);
+	--color-accent: var(--accent);
+	--color-accent-ink: var(--accent-ink);
+	--color-accent-soft: var(--accent-soft);
+	--color-success: var(--success);
+	--font-sans: var(--font-body);
+	--font-display: var(--font-heading);
+	--font-serif: var(--font-accent);
+	--font-mono: var(--font-code);
+}
+
+/* Emil Kowalski's curves: strong ease-out for UI, ease-in-out for on-screen movement */
+@theme {
+	--ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+	--ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+	--ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@layer base {
+	/* Base */
+
+	html {
+		-webkit-text-size-adjust: 100%;
+		text-size-adjust: 100%;
+		scroll-padding-top: 6rem;
+	}
+
+	body {
+		background: var(--bg);
+		color: var(--ink);
+		font-family: var(--font-body);
+		font-size: 1rem;
+		line-height: 1.6;
+		letter-spacing: -0.006em;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeLegibility;
+		font-feature-settings: 'kern', 'calt';
+	}
+
+	@media (min-width: 768px) {
+		body {
+			font-size: 1.0625rem;
+		}
+	}
+
+	::selection {
+		background: var(--accent-soft);
+		color: var(--ink);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+		border-radius: 6px;
+	}
+}
+
+@layer components {
+	/* Layout helpers */
+
+	.container-page {
+		width: min(100% - 2rem, 70rem);
+		margin-inline: auto;
+	}
+
+	.container-text {
+		width: min(100% - 2rem, 42rem);
+		margin-inline: auto;
+	}
+
+	/* Type */
+
+	.type-display {
+		font-family: var(--font-heading);
+		font-size: clamp(2.125rem, 1.35rem + 3.4vw, 4rem);
+		line-height: 1.04;
+		letter-spacing: -0.035em;
+		font-weight: 600;
+		text-wrap: balance;
+	}
+
+	.type-title {
+		font-family: var(--font-heading);
+		font-size: clamp(1.75rem, 1.3rem + 1.9vw, 2.75rem);
+		line-height: 1.08;
+		letter-spacing: -0.03em;
+		font-weight: 600;
+		text-wrap: balance;
+	}
+
+	.type-heading {
+		font-family: var(--font-heading);
+		font-size: 1.375rem;
+		line-height: 1.2;
+		letter-spacing: -0.02em;
+		font-weight: 600;
+	}
+
+	.type-lede {
+		font-size: clamp(1.125rem, 1.02rem + 0.45vw, 1.3125rem);
+		line-height: 1.5;
+		letter-spacing: -0.012em;
+		color: var(--ink-2);
+		text-wrap: pretty;
+	}
+
+	.type-eyebrow {
+		font-family: var(--font-code);
+		font-size: 0.75rem;
+		line-height: 1.4;
+		letter-spacing: 0.02em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+	}
+
+	.type-emphasis {
+		font-family: var(--font-accent);
+		font-style: italic;
+		font-weight: 400;
+		letter-spacing: -0.01em;
+		color: var(--accent-ink);
+	}
+
+	:root[data-direction='graphite'] .type-emphasis {
+		font-style: normal;
+		font-weight: inherit;
+		letter-spacing: inherit;
+	}
+
+	.text-pretty {
+		text-wrap: pretty;
+	}
+
+	/* Inline links inside prose and copy */
+	.link-inline {
+		color: var(--ink);
+		text-decoration: underline;
+		text-decoration-color: var(--line-strong);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.22em;
+		transition: text-decoration-color 160ms ease;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.link-inline:hover {
+			text-decoration-color: var(--accent);
+		}
+	}
+
+	/* Pressable: instant, subtle feedback on press (Emil: 0.97, 160ms ease-out) */
+	.pressable {
+		transition:
+			transform 160ms var(--ease-out),
+			background-color 160ms ease,
+			border-color 160ms ease,
+			color 160ms ease;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.pressable:active {
+		transform: scale(0.97);
+	}
+
+	/* Material: translucent floating chrome */
+	.material {
+		background: var(--material);
+		backdrop-filter: blur(20px) saturate(180%);
+		-webkit-backdrop-filter: blur(20px) saturate(180%);
+	}
+
+	@media (prefers-reduced-transparency: reduce) {
+		.material {
+			background: var(--surface);
+			backdrop-filter: none;
+			-webkit-backdrop-filter: none;
+		}
+	}
+
+	/* Mobile menu: native popover, anchored top-right under its trigger */
+	.site-menu {
+		position: fixed;
+		inset: 4.25rem 1rem auto auto;
+		width: min(100vw - 2rem, 20rem);
+		margin: 0;
+		padding: 0.5rem;
+		border: 1px solid var(--line);
+		border-radius: 20px;
+		color: var(--ink);
+		box-shadow: var(--shadow-float);
+		transform-origin: top right;
+		opacity: 0;
+		transform: scale(0.96) translateY(-4px);
+		transition:
+			opacity 180ms var(--ease-out),
+			transform 180ms var(--ease-out),
+			display 180ms allow-discrete,
+			overlay 180ms allow-discrete;
+	}
+
+	.site-menu:popover-open {
+		opacity: 1;
+		transform: none;
+	}
+
+	@starting-style {
+		.site-menu:popover-open {
+			opacity: 0;
+			transform: scale(0.96) translateY(-4px);
+		}
+	}
+
+	.site-menu::backdrop {
+		background: transparent;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.site-menu,
+		.site-menu:popover-open {
+			transform: none;
+		}
+	}
+
+	/* Lightbox: a native modal dialog. Modals stay centred and scale from the middle. */
+	.lightbox {
+		width: min(100vw - 1.5rem, 75rem);
+		max-width: none;
+		max-height: calc(100dvh - 1.5rem);
+		margin: auto;
+		padding: 0.75rem;
+		border: 1px solid var(--line);
+		border-radius: 20px;
+		background: var(--bg);
+		color: var(--ink);
+		overflow: auto;
+		opacity: 0;
+		transform: scale(0.97);
+		transition:
+			opacity 220ms var(--ease-out),
+			transform 220ms var(--ease-out),
+			display 220ms allow-discrete,
+			overlay 220ms allow-discrete;
+	}
+
+	.lightbox[open] {
+		opacity: 1;
+		transform: none;
+	}
+
+	@starting-style {
+		.lightbox[open] {
+			opacity: 0;
+			transform: scale(0.97);
+		}
+	}
+
+	.lightbox::backdrop {
+		background: rgb(10 10 9 / 0);
+		backdrop-filter: blur(0);
+		transition:
+			background-color 220ms ease,
+			backdrop-filter 220ms ease,
+			display 220ms allow-discrete,
+			overlay 220ms allow-discrete;
+	}
+
+	.lightbox[open]::backdrop {
+		background: rgb(10 10 9 / 0.55);
+		backdrop-filter: blur(6px);
+	}
+
+	@starting-style {
+		.lightbox[open]::backdrop {
+			background: rgb(10 10 9 / 0);
+			backdrop-filter: blur(0);
+		}
+	}
+
+	.lightbox-button {
+		display: grid;
+		place-items: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 999px;
+		border: 1px solid var(--line);
+		background: var(--surface);
+		color: var(--ink-2);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.lightbox,
+		.lightbox[open] {
+			transform: none;
+		}
+	}
+
+	/* Diagrams draw their connections in as they scroll into view, once, CSS only */
+	@keyframes diagram-draw {
+		to {
+			stroke-dashoffset: 0;
+		}
+	}
+
+	@keyframes diagram-node-in {
+		from {
+			opacity: 0;
+		}
+	}
+
+	@supports (animation-timeline: view()) {
+		.diagram {
+			view-timeline-name: --diagram;
+		}
+
+		.diagram .diagram-edge {
+			stroke-dasharray: 1;
+			stroke-dashoffset: 1;
+			animation: diagram-draw linear both;
+			animation-timeline: --diagram;
+			animation-range: entry 30% cover 45%;
+		}
+
+		.diagram .diagram-node {
+			animation: diagram-node-in linear both;
+			animation-timeline: --diagram;
+			animation-range: entry 10% cover 30%;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.diagram .diagram-edge,
+		.diagram .diagram-node {
+			animation: none;
+			stroke-dashoffset: 0;
+		}
+	}
+
+	/* Article typography */
+	.prose-article {
+		color: var(--ink-2);
+		font-size: 1.0625rem;
+		line-height: 1.75;
+	}
+
+	.prose-article > * + * {
+		margin-top: 1.25em;
+	}
+
+	.prose-article h2,
+	.prose-article h3 {
+		color: var(--ink);
+		font-family: var(--font-heading);
+		font-weight: 600;
+		scroll-margin-top: 6rem;
+		text-wrap: balance;
+	}
+
+	.prose-article h2 {
+		margin-top: 2.6em;
+		font-size: 1.5rem;
+		line-height: 1.25;
+		letter-spacing: -0.022em;
+	}
+
+	.prose-article h3 {
+		margin-top: 2em;
+		font-size: 1.1875rem;
+		line-height: 1.35;
+		letter-spacing: -0.015em;
+	}
+
+	.prose-article h2 + *,
+	.prose-article h3 + * {
+		margin-top: 0.75em;
+	}
+
+	.prose-article a {
+		color: var(--ink);
+		text-decoration: underline;
+		text-decoration-color: var(--line-strong);
+		text-underline-offset: 0.22em;
+	}
+
+	.prose-article strong {
+		color: var(--ink);
+		font-weight: 600;
+	}
+
+	.prose-article ul,
+	.prose-article ol {
+		padding-left: 1.25em;
+	}
+
+	.prose-article ul {
+		list-style: disc;
+	}
+
+	.prose-article ol {
+		list-style: decimal;
+	}
+
+	.prose-article li + li {
+		margin-top: 0.4em;
+	}
+
+	.prose-article li::marker {
+		color: var(--ink-3);
+	}
+
+	.prose-article img {
+		border: 1px solid var(--line);
+		border-radius: var(--radius-shot);
+		background: var(--surface);
+	}
+
+	.prose-article :not(pre) > code {
+		font-family: var(--font-code);
+		font-size: 0.86em;
+		padding: 0.12em 0.38em;
+		border-radius: 6px;
+		background: var(--surface-2);
+		color: var(--ink);
+	}
+
+	.prose-article table {
+		width: 100%;
+		font-size: 0.9375rem;
+		border-collapse: collapse;
+		display: block;
+		overflow-x: auto;
+	}
+
+	.prose-article th,
+	.prose-article td {
+		border-bottom: 1px solid var(--line);
+		padding: 0.5em 0.75em 0.5em 0;
+		text-align: left;
+	}
+
+	.prose-article figure[data-rehype-pretty-code-figure] {
+		margin-top: 1.5em;
+		margin-bottom: 1.5em;
+	}
+
+	.prose-article pre {
+		overflow-x: auto;
+		padding: 1rem 1.125rem;
+		border: 1px solid var(--line);
+		border-radius: 12px;
+		background: var(--surface);
+		font-family: var(--font-code);
+		font-size: 0.8125rem;
+		line-height: 1.7;
+		tab-size: 2;
+	}
+
+	.prose-article pre code {
+		display: grid;
+	}
+
+	/* Shiki dual themes follow the site theme */
+	.prose-article pre span {
+		color: var(--shiki-light);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:root:not([data-theme='light']) .prose-article pre span {
+			color: var(--shiki-dark);
+		}
+	}
+
+	:root[data-theme='dark'] .prose-article pre span {
+		color: var(--shiki-dark);
+	}
+
+	/* TODO markers stay visible until Nat fills them in */
+	.todo-marker {
+		background: var(--todo-bg);
+		color: var(--todo-ink);
+		border-radius: 6px;
+		padding: 0.05em 0.4em;
+		font-family: var(--font-code);
+		font-size: 0.85em;
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
+	}
+}
+
+/*
+ * Entrances. One entrance per container, short and non-uniform delays,
+ * transform and opacity only. Reduced motion falls back to a short fade.
+ */
+@keyframes enter-up {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+}
+
+@keyframes enter-fade {
+	from {
+		opacity: 0;
+	}
+}
+
+.enter {
+	animation: enter-up 640ms var(--ease-out) both;
+	animation-delay: var(--enter-delay, 0ms);
+}
+
+/* Scroll-driven reveal where supported (no JavaScript) */
+@supports (animation-timeline: view()) {
+	.reveal {
+		animation: enter-up linear both;
+		animation-timeline: view();
+		animation-range: entry 0% entry 40%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.enter {
+		animation: enter-fade 240ms ease both;
+	}
+
+	.reveal {
+		animation: none;
+	}
+
+	.pressable:active {
+		transform: none;
+	}
+}
+
+/* Theme crossfade when toggled (driven by the View Transitions API) */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 260ms;
+	animation-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-group(*),
+	::view-transition-old(*),
+	::view-transition-new(*) {
+		animation: none !important;
+	}
+}
+
+/* Shared-element morph from a work card into its case study hero */
+::view-transition-group(.shot-morph) {
+	animation-duration: 420ms;
+	animation-timing-function: var(--ease-in-out);
+}
+
+::view-transition-image-pair(.shot-morph) {
+	animation-name: shot-via-blur;
+}
+
+@keyframes shot-via-blur {
+	30% {
+		filter: blur(3px);
+	}
+}
+
+/* Print: the resume prints cleanly */
+@media print {
+	:root {
+		--bg: #fff;
+		--ink: #000;
+		--ink-2: #222;
+		--ink-3: #444;
+		--line: #ccc;
+	}
+
+	.no-print {
+		display: none !important;
+	}
+
+	body {
+		font-size: 11pt;
+	}
 }
