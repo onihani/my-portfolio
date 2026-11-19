@@ -18,15 +18,24 @@ const AboutPage = () => (
 			<h1 id="about" className="enter text-[2rem] leading-tight font-medium tracking-[-0.025em]">
 				About
 			</h1>
-			<Image
-				src={portrait}
-				alt="Nathaniel Quansah in a light blue shirt"
-				sizes="(min-width: 640px) 240px, 55vw"
-				placeholder="blur"
-				priority
-				className="enter mt-10 aspect-[4/5] w-[min(240px,55%)] rounded-2xl object-cover"
-				style={{ '--i': 1 }}
-			/>
+			<div
+				className="enter ambient mt-10 w-[min(240px,55%)] rounded-2xl"
+				style={{
+					'--i': 1,
+					'--ambient': `url(${portrait.blurDataURL})`,
+					'--ambient-blur': '32px',
+					'--ambient-y': '20px',
+				}}
+			>
+				<Image
+					src={portrait}
+					alt="Nathaniel Quansah in a light blue shirt"
+					sizes="(min-width: 640px) 240px, 55vw"
+					placeholder="blur"
+					priority
+					className="aspect-[4/5] w-full rounded-2xl object-cover"
+				/>
+			</div>
 			<div className="enter mt-10 grid gap-5 text-ink-2" style={{ '--i': 2 }}>
 				<p>
 					I&apos;m Nathaniel, and most people call me Nat. I&apos;m a software engineer in Accra,
@@ -56,13 +65,22 @@ const AboutPage = () => (
 			<ul className="mt-6 grid gap-5">
 				{experience.map((entry) => (
 					<li key={entry.company} className="flex items-center gap-4">
-						<Image
-							src={entry.logo}
-							alt=""
-							width={36}
-							height={36}
-							className="logo size-9 rounded-[9px]"
-						/>
+						<span
+							className="ambient shrink-0 rounded-[9px]"
+							style={{
+								'--ambient': `url(${entry.logo.blurDataURL})`,
+								'--ambient-blur': '10px',
+								'--ambient-y': '5px',
+							}}
+						>
+							<Image
+								src={entry.logo}
+								alt=""
+								width={36}
+								height={36}
+								className="logo block size-9 rounded-[9px]"
+							/>
+						</span>
 						<div className="min-w-0 flex-1">
 							<p className="font-medium">
 								{entry.href ? (

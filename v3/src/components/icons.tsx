@@ -90,3 +90,10 @@ export const XIcon = (props: IconProps) => (
 		<path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
 	</svg>
 )
+
+export const LockIcon = (props: IconProps) => (
+	<svg {...base} {...props}>
+		<rect x="3.5" y="7" width="9" height="6.5" rx="1.75" />
+		<path d="M5.5 7V5.25a2.5 2.5 0 0 1 5 0V7" />
+	</svg>
+)

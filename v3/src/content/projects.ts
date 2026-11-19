@@ -151,9 +151,7 @@ export const projects: Array<Project> = [
 		logo: soccersmLogo,
 		color: '#15804a',
 		textTone: 'light',
-		shots: [
-			{ image: soccersmHome, alt: 'Soccersm predictions page', liveUrl: 'https://soccersm.ai' },
-		],
+		shots: [{ image: soccersmHome, alt: 'Soccersm predictions page', liveUrl: null }],
 		note: null,
 	},
 	{

@@ -1,9 +1,9 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 
-import { ChevronLeftIcon, ChevronRightIcon } from '@/components/icons'
+import { ChevronLeftIcon, ChevronRightIcon, LockIcon } from '@/components/icons'
 import type { ProjectShot } from '@/content/types'
 
 type ShotStripProps = {
@@ -79,16 +79,21 @@ const LiveFrame = ({ url, title, isInteractive }: LiveFrameProps) => {
 		}
 	}, [])
 
-	// Some sites keep loading in the background and never fire load, so show them after a few seconds anyway
+	// Sites drawn in the browser paint a moment after load, so the screenshot stays up a little longer.
+	// Some never fire load at all, so they show after a while anyway; until then the screenshot looks the same.
 	useEffect(() => {
 		if (!shouldLoad) return
-		const timer = window.setTimeout(() => setIsLoaded(true), 4000)
+		const timer = window.setTimeout(() => setIsLoaded(true), 12000)
 		return () => window.clearTimeout(timer)
 	}, [shouldLoad])
 
+	// Pressing Interact asks for the live site, so it loads and shows straight away
+	const isLoading = shouldLoad || isInteractive
+	const isShown = isLoaded || isInteractive
+
 	return (
 		<div ref={holderRef} className="live-holder" aria-hidden={isInteractive ? undefined : true}>
-			{shouldLoad ? (
+			{isLoading ? (
 				<iframe
 					src={url}
 					title={title}
@@ -99,10 +104,10 @@ const LiveFrame = ({ url, title, isInteractive }: LiveFrameProps) => {
 					sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
 					tabIndex={isInteractive ? 0 : -1}
 					className="live-frame"
-					data-loaded={isLoaded}
+					data-loaded={isShown}
 					data-interactive={isInteractive}
 					style={{ '--scale': scale }}
-					onLoad={() => setIsLoaded(true)}
+					onLoad={() => window.setTimeout(() => setIsLoaded(true), 700)}
 				/>
 			) : null}
 		</div>
@@ -153,36 +158,51 @@ export const ShotStrip = ({
 		})
 	}
 
+	// Arrow keys step through the screenshots once the strip has focus
+	const onStripKey = (event: KeyboardEvent<HTMLDivElement>) => {
+		if (event.target !== event.currentTarget) return
+		if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
+		event.preventDefault()
+		const next = event.key === 'ArrowLeft' ? index - 1 : index + 1
+		if (next >= 0 && next < shots.length) goTo(next)
+	}
+
 	return (
 		<>
 			<div className="panel-head">
-				<div>{children}</div>
-				<div className="panel-actions">
-					{action}
-					{hasMany ? (
-						<div className="strip-controls">
-							<button
-								type="button"
-								onClick={() => goTo(index - 1)}
-								disabled={index === 0}
-								aria-label="Previous screenshot"
-							>
-								<ChevronLeftIcon className="size-4" />
-							</button>
-							<span className="min-w-[2.75rem] text-center" aria-live="polite">
-								{index + 1} / {shots.length}
-							</span>
-							<button
-								type="button"
-								onClick={() => goTo(index + 1)}
-								disabled={index === shots.length - 1}
-								aria-label="Next screenshot"
-							>
-								<ChevronRightIcon className="size-4" />
-							</button>
-						</div>
-					) : null}
-				</div>
+				<div className="panel-text">{children}</div>
+				<div className="panel-action">{action}</div>
+				{hasMany ? (
+					<div className="strip-controls">
+						<button
+							type="button"
+							className="strip-step"
+							onClick={() => goTo(index - 1)}
+							disabled={index === 0}
+							aria-label="Previous screenshot"
+						>
+							<ChevronLeftIcon className="size-4" />
+						</button>
+						{/* The dots show where you are; the arrows either side do the stepping */}
+						<span className="strip-dots" aria-hidden="true">
+							{shots.map((shot, shotIndex) => (
+								<i key={shot.image.src} className="strip-dot" data-current={shotIndex === index} />
+							))}
+						</span>
+						<button
+							type="button"
+							className="strip-step"
+							onClick={() => goTo(index + 1)}
+							disabled={index === shots.length - 1}
+							aria-label="Next screenshot"
+						>
+							<ChevronRightIcon className="size-4" />
+						</button>
+						<span className="sr-only" aria-live="polite">
+							Screenshot {index + 1} of {shots.length}
+						</span>
+					</div>
+				) : null}
 			</div>
 			<div className="panel-media">
 				<div
@@ -191,13 +211,22 @@ export const ShotStrip = ({
 					role={hasMany ? 'region' : undefined}
 					aria-label={hasMany ? `${projectName} screenshots` : undefined}
 					tabIndex={hasMany ? 0 : undefined}
+					onKeyDown={hasMany ? onStripKey : undefined}
 				>
 					{shots.map((shot, shotIndex) => {
 						const isInteractive = interactiveShot === shotIndex
 						return (
 							<figure key={shot.image.src} data-index={shotIndex} className="shot">
 								<div className="shot-bar">
-									<span className="shot-address truncate">{address ?? projectName}</span>
+									<span className="shot-lights" aria-hidden="true">
+										<i />
+										<i />
+										<i />
+									</span>
+									<span className="shot-address">
+										{address ? <LockIcon className="size-2.5 shrink-0" /> : null}
+										<span className="truncate">{address ?? projectName}</span>
+									</span>
 									{shot.liveUrl ? (
 										<button
 											type="button"

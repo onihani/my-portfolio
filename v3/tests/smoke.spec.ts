@@ -33,9 +33,10 @@ test('the step controls move through a project', async ({ page, isMobile }) => {
 	test.skip(isMobile, 'Swiping covers this on touch screens')
 	await page.goto('/')
 	const panel = page.locator('article', { has: page.getByRole('heading', { name: 'WayaSend' }) })
-	await expect(panel.getByText('1 / 4')).toBeVisible()
+	const status = panel.locator('.strip-controls [aria-live]')
+	await expect(status).toHaveText('Screenshot 1 of 4')
 	await panel.getByRole('button', { name: 'Next screenshot' }).click()
-	await expect(panel.getByText('2 / 4')).toBeVisible()
+	await expect(status).toHaveText('Screenshot 2 of 4')
 })
 
 test('every screenshot link opens a real image', async ({ page }) => {
@@ -51,6 +52,19 @@ test('every screenshot link opens a real image', async ({ page }) => {
 		expect(response.status(), href).toBe(200)
 		expect(response.headers()['content-type']).toContain('image/')
 	}
+})
+
+test('on large screens the page scroll carries the work sideways', async ({ page, isMobile }) => {
+	test.skip(isMobile, 'Small screens stack the cards')
+	await page.goto('/')
+	const nav = page.getByRole('navigation', { name: 'Jump to a project' })
+	await expect(nav.getByRole('button', { name: 'WayaSend' })).toHaveAttribute(
+		'aria-current',
+		'true',
+	)
+	await nav.getByRole('button', { name: 'GASU' }).click()
+	await expect(nav.getByRole('button', { name: 'GASU' })).toHaveAttribute('aria-current', 'true')
+	await expect(page.getByRole('heading', { level: 3, name: 'GASU' })).toBeInViewport()
 })
 
 test('navigation reaches about and writing', async ({ page }) => {

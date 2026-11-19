@@ -16,7 +16,16 @@ export const SiteHeader = () => {
 
 	return (
 		<header className="flex items-center justify-between pt-6 md:pt-8">
-			<Link href="/" className="press block rounded-full" aria-label={`${site.name}, home`}>
+			<Link
+				href="/"
+				className="press ambient block rounded-full"
+				style={{
+					'--ambient': `url(${portrait.blurDataURL})`,
+					'--ambient-blur': '8px',
+					'--ambient-y': '4px',
+				}}
+				aria-label={`${site.name}, home`}
+			>
 				<Image
 					src={portrait}
 					alt=""
@@ -26,9 +35,9 @@ export const SiteHeader = () => {
 					className="size-9 rounded-full object-cover"
 				/>
 			</Link>
-			<div className="-mr-2 flex items-center gap-1">
+			<div className="flex items-center gap-2">
 				<nav aria-label="Main">
-					<ul className="flex items-center text-[0.9375rem]">
+					<ul className="flex items-center gap-1 text-[0.9375rem]">
 						{navigation.map((item) => {
 							const current = isCurrent(pathname, item.href)
 							return (
@@ -36,8 +45,8 @@ export const SiteHeader = () => {
 									<Link
 										href={item.href}
 										aria-current={current ? 'page' : undefined}
-										className={`press block rounded-full px-3 py-2.5 transition-colors duration-200 ${
-											current ? 'text-ink' : 'text-muted hover:text-ink'
+										className={`press nav-item block rounded-full px-3.5 py-1.5 ${
+											current ? 'raised text-ink' : 'text-muted hover:text-ink'
 										}`}
 									>
 										{item.label}

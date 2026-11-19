@@ -61,7 +61,7 @@ export const ThemeToggle = () => {
 			type="button"
 			onClick={toggle}
 			aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-			className="press grid size-10 place-items-center rounded-full text-muted transition-colors duration-200 hover:text-ink"
+			className="press nav-item raise-on-hover grid size-9 place-items-center rounded-full text-muted hover:text-ink"
 		>
 			<SunIcon className="theme-icon col-start-1 row-start-1 size-[18px]" data-shown={isDark} />
 			<MoonIcon

@@ -6,30 +6,32 @@ import type { Project } from '@/content/types'
 
 type ProjectEntryProps = {
 	project: Project
-	isFirst: boolean
+	/** Position in the list; the horizontal rail uses it to place and scale each card */
+	index: number
 }
 
-export const ProjectEntry = ({ project, isFirst }: ProjectEntryProps) => (
+export const ProjectEntry = ({ project, index }: ProjectEntryProps) => (
 	<article
+		id={`work-${project.slug}`}
 		aria-labelledby={`project-${project.slug}`}
-		className={isFirst ? 'panel' : 'panel rise'}
+		className={index === 0 ? 'panel' : 'panel rise'}
 		data-tone={project.textTone}
-		style={{ '--panel': project.color }}
+		data-rail-index={index}
+		style={{ '--panel': project.color, '--i': index }}
 	>
 		<ShotStrip
 			projectName={project.name}
 			address={project.address}
 			shots={project.shots}
-			priority={isFirst}
+			priority={index === 0}
 			action={
-				<a
-					href={project.link.href}
-					target="_blank"
-					rel="noreferrer"
-					className="panel-link press group"
-				>
-					{project.link.label}
-					<ArrowUpRightIcon className="size-3.5 transition-transform duration-200 ease-out group-hover:translate-x-px group-hover:-translate-y-px" />
+				<a href={project.link.href} target="_blank" rel="noreferrer" className="panel-link press">
+					<span>{project.link.label}</span>
+					{/* Two arrows: on hover the first flies out to the top right as the second slides in */}
+					<span className="arrow-swap" aria-hidden="true">
+						<ArrowUpRightIcon />
+						<ArrowUpRightIcon />
+					</span>
 				</a>
 			}
 		>

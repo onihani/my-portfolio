@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { ArrowRightIcon } from '@/components/icons'
 import { ProjectEntry } from '@/components/project-entry'
+import { WorkRail } from '@/components/work-rail'
 import { projects } from '@/content/projects'
 import { site } from '@/content/site'
 
@@ -41,16 +42,11 @@ const HomePage = () => (
 			</Link>
 		</section>
 
-		<section aria-labelledby="work" className="layout col-[full]! mt-24 md:mt-32">
-			<h2 id="work" className="enter text-[1.25rem] font-medium" style={{ '--i': 4 }}>
-				Selected work
-			</h2>
-			<div className="wide mt-8 grid gap-5 md:gap-6">
-				{projects.map((project, index) => (
-					<ProjectEntry key={project.slug} project={project} isFirst={index === 0} />
-				))}
-			</div>
-		</section>
+		<WorkRail items={projects.map(({ slug, name, logo, color }) => ({ slug, name, logo, color }))}>
+			{projects.map((project, index) => (
+				<ProjectEntry key={project.slug} project={project} index={index} />
+			))}
+		</WorkRail>
 	</>
 )
 

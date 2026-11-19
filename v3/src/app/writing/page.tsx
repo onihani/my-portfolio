@@ -20,15 +20,26 @@ const PostMeta = ({ post }: { post: WritingPost }) => (
 	</p>
 )
 
+// The cover casts a soft glow in its own colours: the same image again, blurred, just beneath it
 const PostCover = ({ post, sizes }: { post: WritingPost; sizes: string }) => (
-	<span className="logo relative block aspect-video overflow-hidden rounded-xl bg-surface">
+	<span className="relative isolate block rounded-xl">
 		<Image
 			src={post.cover}
 			alt=""
 			fill
 			sizes={sizes}
-			className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+			aria-hidden="true"
+			className="ambient-image"
 		/>
+		<span className="logo relative block aspect-video overflow-hidden rounded-xl bg-surface">
+			<Image
+				src={post.cover}
+				alt=""
+				fill
+				sizes={sizes}
+				className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+			/>
+		</span>
 	</span>
 )
 
