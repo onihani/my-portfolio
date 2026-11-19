@@ -1,0 +1,1164 @@
+@import 'tailwindcss';
+
+/*
+ * Design system
+ * - Neutrals follow Apple's: a cool off-white page, near-black ink, true black in dark mode.
+ * - Colour comes from the work itself: every project sits on its own brand colour.
+ * - One typeface, Host Grotesk, in three weights.
+ */
+
+:root {
+	color-scheme: light;
+	--bg: #efeff2;
+	--surface: #ffffff;
+	--ink: #1d1d1f;
+	--ink-2: #424245;
+	--muted: #66666b;
+	--line: #d9d9de;
+	--panel-shade: 0%;
+	--panel-ring: transparent;
+	--logo-ring: rgb(0 0 0 / 0.08);
+	--glow-strength: 55%;
+	--ambient-strength: 0.4;
+	--raise-from: #ffffff;
+	--raise-to: #f8f8fa;
+	--raise-shine: rgb(255 255 255 / 0.9);
+	--raise-ring: rgb(0 0 0 / 0.06);
+	--raise-drop: rgb(0 0 0 / 0.12);
+}
+
+/* Dark follows the device unless light was chosen, or applies when dark was chosen */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		color-scheme: dark;
+		--bg: #000000;
+		--surface: #1c1c1e;
+		--ink: #f5f5f7;
+		--ink-2: #d1d1d6;
+		--muted: #98989d;
+		--line: #2c2c2e;
+		--panel-shade: 14%;
+		--panel-ring: rgb(255 255 255 / 0.06);
+		--logo-ring: rgb(255 255 255 / 0.1);
+		--glow-strength: 45%;
+		--ambient-strength: 0.55;
+		--raise-from: #2c2c2e;
+		--raise-to: #1f1f21;
+		--raise-shine: rgb(255 255 255 / 0.09);
+		--raise-ring: rgb(255 255 255 / 0.05);
+		--raise-drop: rgb(0 0 0 / 0.6);
+	}
+}
+
+:root[data-theme='dark'] {
+	color-scheme: dark;
+	--bg: #000000;
+	--surface: #1c1c1e;
+	--ink: #f5f5f7;
+	--ink-2: #d1d1d6;
+	--muted: #98989d;
+	--line: #2c2c2e;
+	--panel-shade: 14%;
+	--panel-ring: rgb(255 255 255 / 0.06);
+	--logo-ring: rgb(255 255 255 / 0.1);
+	--glow-strength: 45%;
+	--ambient-strength: 0.55;
+	--raise-from: #2c2c2e;
+	--raise-to: #1f1f21;
+	--raise-shine: rgb(255 255 255 / 0.09);
+	--raise-ring: rgb(255 255 255 / 0.05);
+	--raise-drop: rgb(0 0 0 / 0.6);
+}
+
+/* How far through Selected work the page has scrolled, from 0 to 1, driven by the scroll itself */
+@property --progress {
+	syntax: '<number>';
+	inherits: true;
+	initial-value: 0;
+}
+
+@theme inline {
+	--color-bg: var(--bg);
+	--color-surface: var(--surface);
+	--color-ink: var(--ink);
+	--color-ink-2: var(--ink-2);
+	--color-muted: var(--muted);
+	--color-line: var(--line);
+	--font-sans: var(--font-host), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@theme {
+	--ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+	--ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+@layer base {
+	body {
+		background: var(--bg);
+		color: var(--ink);
+		font-family: var(--font-sans);
+		font-size: 1.0625rem;
+		line-height: 1.55;
+		letter-spacing: -0.005em;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeLegibility;
+	}
+
+	h1,
+	h2,
+	h3 {
+		text-wrap: balance;
+	}
+
+	p {
+		text-wrap: pretty;
+	}
+
+	::selection {
+		background: color-mix(in oklab, var(--ink) 16%, transparent);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--ink);
+		outline-offset: 3px;
+		border-radius: 4px;
+	}
+}
+
+@layer components {
+	/* Page grid: text sits in a narrow column, work panels break out to a wider one */
+	.layout {
+		display: grid;
+		grid-template-columns:
+			[full-start] minmax(1rem, 1fr)
+			[wide-start] minmax(0, 12rem)
+			[content-start] min(100% - 2rem, 40rem)
+			[content-end] minmax(0, 12rem)
+			[wide-end] minmax(1rem, 1fr)
+			[full-end];
+	}
+
+	.layout > * {
+		grid-column: content;
+	}
+
+	.layout > .wide {
+		grid-column: wide;
+	}
+
+	.link {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-decoration-color: color-mix(in oklab, currentColor 30%, transparent);
+		text-underline-offset: 0.22em;
+		transition: text-decoration-color 200ms var(--ease-out);
+	}
+
+	/* Underline appears only on hover, for lists where every row is a link */
+	.hover-link {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-decoration-color: transparent;
+		text-underline-offset: 0.22em;
+		transition: text-decoration-color 200ms var(--ease-out);
+	}
+
+	.quiet-link {
+		color: var(--muted);
+		transition: color 200ms var(--ease-out);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.link:hover,
+		.hover-link:hover {
+			text-decoration-color: currentColor;
+		}
+
+		.quiet-link:hover {
+			color: var(--ink);
+		}
+	}
+
+	/* A small pressable element: scales down slightly while held */
+	.press {
+		transition: transform 160ms var(--ease-out);
+	}
+
+	.press:active {
+		transform: scale(0.97);
+	}
+
+	/*
+	 * Project card, in the project's brand colour, drawn like the footer tiles: a gradient that
+	 * deepens toward the bottom, a hairline of light along the top edge, and a soft glow beneath
+	 * in the card's own colour. Small screens stack the text above the screenshots. Large
+	 * screens put the text in a column on the left and a browser window on the right.
+	 */
+	.panel {
+		--pad: clamp(1.25rem, 5vw, 3rem);
+		--panel-bg: color-mix(in oklab, var(--panel), black var(--panel-shade));
+		--panel-deep: color-mix(in oklab, var(--panel-bg), black 16%);
+		--on: 255 255 255;
+		--shine: rgb(255 255 255 / 0.3);
+		--sheen: rgb(255 255 255 / 0);
+		--controls-bg: rgb(0 0 0 / 0.16);
+		--controls-shine: rgb(255 255 255 / 0.14);
+		--controls-hover: rgb(255 255 255 / 0.14);
+		--pill-bg: #ffffff;
+		--pill-ink: color-mix(in oklab, var(--panel-bg), black 18%);
+		--pill-shine: rgb(0 0 0 / 0.08);
+		position: relative;
+		display: grid;
+		overflow: hidden;
+		border-radius: 20px;
+		background:
+			radial-gradient(90% 70% at 0% 0%, var(--sheen), transparent 70%),
+			linear-gradient(to bottom, var(--panel-bg), var(--panel-deep));
+		box-shadow:
+			inset 0 1px 0 var(--shine),
+			inset 0 0 0 1px var(--panel-ring),
+			0 1px 2px color-mix(in oklab, var(--panel-deep) 35%, transparent),
+			0 32px 64px -32px color-mix(in oklab, var(--panel) var(--glow-strength), transparent);
+		color: rgb(var(--on));
+	}
+
+	/* Bright cards carry dark text, so they can take a little light in the top corner */
+	.panel[data-tone='dark'] {
+		--on: 17 17 17;
+		--shine: rgb(255 255 255 / 0.55);
+		--sheen: rgb(255 255 255 / 0.2);
+		--controls-bg: rgb(255 255 255 / 0.34);
+		--controls-shine: rgb(255 255 255 / 0.55);
+		--controls-hover: rgb(255 255 255 / 0.45);
+		--pill-bg: #141414;
+		--pill-ink: var(--panel-bg);
+		--pill-shine: rgb(255 255 255 / 0.16);
+	}
+
+	/* Text, then the link and the screenshot stepper side by side */
+	.panel-head {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-areas:
+			'text text'
+			'action steps';
+		align-items: center;
+		column-gap: 0.75rem;
+		padding: var(--pad) var(--pad) 0;
+	}
+
+	.panel-text {
+		grid-area: text;
+	}
+
+	.panel-action {
+		grid-area: action;
+		margin-top: 1.5rem;
+	}
+
+	.panel-head > .strip-controls {
+		grid-area: steps;
+		margin-top: 1.5rem;
+	}
+
+	.panel-media {
+		min-width: 0;
+		margin-top: clamp(1.75rem, 5vw, 2.5rem);
+	}
+
+	.panel .logo {
+		box-shadow:
+			0 0 0 1px rgb(var(--on) / 0.22),
+			0 6px 12px -6px rgb(0 0 0 / 0.35);
+	}
+
+	/* The link: a pill in the card's text colour, its arrow in a small disc of the card's colour */
+	.panel-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.625rem;
+		height: 2.25rem;
+		padding: 0 0.3125rem 0 1rem;
+		border-radius: 999px;
+		background: var(--pill-bg);
+		color: var(--pill-ink);
+		font-size: 0.9375rem;
+		font-weight: 500;
+		line-height: 1;
+		white-space: nowrap;
+		box-shadow:
+			inset 0 1px 0 var(--pill-shine),
+			0 1px 1px rgb(0 0 0 / 0.12),
+			0 6px 14px -6px color-mix(in oklab, var(--panel-deep), black 45%);
+		transition:
+			translate 240ms var(--ease-out),
+			box-shadow 240ms var(--ease-out),
+			transform 160ms var(--ease-out);
+	}
+
+	.panel:not([data-tone='dark']) .panel-link {
+		box-shadow:
+			inset 0 -1px 0 var(--pill-shine),
+			0 1px 1px rgb(0 0 0 / 0.12),
+			0 6px 14px -6px color-mix(in oklab, var(--panel-deep), black 45%);
+	}
+
+	.arrow-swap {
+		display: grid;
+		place-items: center;
+		width: 1.625rem;
+		height: 1.625rem;
+		overflow: hidden;
+		border-radius: 999px;
+		background: var(--pill-ink);
+		color: var(--pill-bg);
+	}
+
+	.arrow-swap > svg {
+		grid-area: 1 / 1;
+		width: 0.8125rem;
+		height: 0.8125rem;
+		stroke-width: 1.75;
+		transition: translate 380ms var(--ease-out);
+	}
+
+	.arrow-swap > svg:last-child {
+		translate: -160% 160%;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.panel-link:hover {
+			translate: 0 -1px;
+			box-shadow:
+				inset 0 -1px 0 var(--pill-shine),
+				0 1px 1px rgb(0 0 0 / 0.12),
+				0 10px 20px -8px color-mix(in oklab, var(--panel-deep), black 45%);
+		}
+
+		.panel-link:hover .arrow-swap > svg:first-child {
+			translate: 160% -160%;
+		}
+
+		.panel-link:hover .arrow-swap > svg:last-child {
+			translate: 0 0;
+		}
+	}
+
+	.strip {
+		display: flex;
+		gap: clamp(0.75rem, 2vw, 1rem);
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: var(--pad);
+		padding-inline: var(--pad);
+		scrollbar-width: none;
+	}
+
+	.strip::-webkit-scrollbar {
+		display: none;
+	}
+
+	.strip > * {
+		flex: 0 0 100%;
+		scroll-snap-align: start;
+	}
+
+	.strip:has(> :nth-child(2)) > * {
+		flex-basis: 92%;
+	}
+
+	/* A browser window: a bar with the window buttons and the address, then the page */
+	.shot {
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		border-radius: 12px 12px 0 0;
+		background: var(--surface);
+		box-shadow:
+			0 0 0 1px rgb(0 0 0 / 0.08),
+			0 -2px 8px rgb(0 0 0 / 0.12);
+	}
+
+	.shot-bar {
+		display: grid;
+		grid-template-columns: minmax(3.5rem, 1fr) minmax(0, max-content) minmax(3.5rem, 1fr);
+		align-items: center;
+		gap: 0.5rem;
+		height: 2.25rem;
+		padding-inline: 0.75rem;
+		border-bottom: 1px solid var(--line);
+		background: color-mix(in oklab, var(--surface), var(--ink) 3%);
+		color: var(--muted);
+		font-size: 0.75rem;
+		letter-spacing: 0;
+	}
+
+	/* Grey like a window in the background, then in colour while the card is under the pointer */
+	.shot-lights {
+		display: flex;
+		gap: 6px;
+	}
+
+	.shot-lights i {
+		width: 9px;
+		height: 9px;
+		border-radius: 999px;
+		background: color-mix(in oklab, var(--ink) 15%, transparent);
+		transition: background-color 240ms var(--ease-out);
+	}
+
+	@media (hover: none) {
+		.shot-lights i:nth-child(1) {
+			background: #ff5f57;
+		}
+
+		.shot-lights i:nth-child(2) {
+			background: #febc2e;
+		}
+
+		.shot-lights i:nth-child(3) {
+			background: #28c840;
+		}
+	}
+
+	@media (hover: hover) {
+		.panel:hover .shot-lights i:nth-child(1) {
+			background: #ff5f57;
+		}
+
+		.panel:hover .shot-lights i:nth-child(2) {
+			background: #febc2e;
+			transition-delay: 40ms;
+		}
+
+		.panel:hover .shot-lights i:nth-child(3) {
+			background: #28c840;
+			transition-delay: 80ms;
+		}
+	}
+
+	.shot-address {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3125rem;
+		min-width: 0;
+		height: 1.5rem;
+		padding-inline: 0.75rem;
+		border-radius: 7px;
+		background: color-mix(in oklab, var(--ink) 5%, transparent);
+	}
+
+	/* A green dot once the live site has loaded, so it reads as the real thing, not a picture */
+	.shot:has(.live-frame[data-loaded='true']) .shot-address::before {
+		content: '';
+		flex: none;
+		width: 6px;
+		height: 6px;
+		border-radius: 999px;
+		background: #30d158;
+		box-shadow: 0 0 6px rgb(48 209 88 / 0.7);
+		animation: live-ping 1400ms var(--ease-out);
+	}
+
+	.shot:has(.live-frame[data-loaded='true']) .shot-address svg {
+		display: none;
+	}
+
+	@keyframes live-ping {
+		from {
+			box-shadow:
+				0 0 6px rgb(48 209 88 / 0.7),
+				0 0 0 0 rgb(48 209 88 / 0.55);
+		}
+
+		to {
+			box-shadow:
+				0 0 6px rgb(48 209 88 / 0.7),
+				0 0 0 7px rgb(48 209 88 / 0);
+		}
+	}
+
+	.shot-interact {
+		grid-column: 3;
+		justify-self: end;
+		height: 1.5rem;
+		padding-inline: 0.625rem;
+		border-radius: 7px;
+		color: var(--ink);
+		font-weight: 500;
+		transition:
+			background-color 150ms var(--ease-out),
+			color 150ms var(--ease-out),
+			transform 160ms var(--ease-out);
+	}
+
+	.shot-interact:active {
+		transform: scale(0.95);
+	}
+
+	.shot-interact[aria-pressed='true'] {
+		background: var(--ink);
+		color: var(--bg);
+	}
+
+	/* Interact only matters where live sites load */
+	@media not ((min-width: 1024px) and (pointer: fine)) {
+		.shot-interact {
+			display: none;
+		}
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.shot-interact[aria-pressed='false']:hover {
+			background: color-mix(in oklab, var(--ink) 8%, transparent);
+		}
+	}
+
+	.shot-view {
+		position: relative;
+		aspect-ratio: 16 / 10;
+		overflow: hidden;
+	}
+
+	.shot-link {
+		position: absolute;
+		inset: 0;
+	}
+
+	.shot-link img {
+		transition: transform 700ms var(--ease-out);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.shot-link:hover img {
+			transform: scale(1.015);
+		}
+	}
+
+	/* A live site, drawn at desktop size and scaled to the window; clicks pass to the link until Interact */
+	.live-holder {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+	}
+
+	.live-frame {
+		position: absolute;
+		top: 0;
+		left: 0;
+		border: 0;
+		background: #fff;
+		transform: scale(var(--scale));
+		transform-origin: 0 0;
+		opacity: 0;
+		transition: opacity 500ms var(--ease-out);
+	}
+
+	.live-frame[data-loaded='true'] {
+		opacity: 1;
+	}
+
+	.shot-view[data-interactive='true'] .live-holder,
+	.live-frame[data-interactive='true'] {
+		pointer-events: auto;
+	}
+
+	@media (min-width: 1024px) {
+		.panel {
+			grid-template-columns: 22rem minmax(0, 1fr);
+		}
+
+		/* The link sits under the description, the stepper at the foot of the column by the window */
+		.panel-head {
+			grid-template-columns: minmax(0, 1fr);
+			grid-template-rows: auto auto 1fr auto;
+			grid-template-areas: 'text' 'action' '.' 'steps';
+			align-items: start;
+			justify-items: start;
+			padding: var(--pad) 2.5rem var(--pad) var(--pad);
+		}
+
+		.panel-action {
+			margin-top: 1.75rem;
+		}
+
+		.panel-head > .strip-controls {
+			margin-top: 2rem;
+		}
+
+		.panel-media {
+			align-self: end;
+			margin-top: 0;
+			padding-top: var(--pad);
+		}
+
+		.strip {
+			padding-inline: 0;
+			scroll-padding-inline: 0;
+		}
+
+		.strip:has(> :nth-child(2)) > * {
+			flex-basis: 100%;
+		}
+
+		.shot {
+			border-radius: 12px 0 0 0;
+		}
+	}
+
+	/* Step through a project's screenshots: arrows either side of a dot for each one */
+	.strip-controls {
+		display: flex;
+		align-items: center;
+		height: 2.25rem;
+		padding: 0.1875rem;
+		border-radius: 999px;
+		background: var(--controls-bg);
+		box-shadow:
+			inset 0 1px 0 var(--controls-shine),
+			inset 0 -1px 0 rgb(0 0 0 / 0.06);
+	}
+
+	.strip-step {
+		display: grid;
+		place-items: center;
+		width: 1.875rem;
+		height: 1.875rem;
+		border-radius: 999px;
+		transition:
+			background-color 150ms var(--ease-out),
+			opacity 150ms var(--ease-out),
+			transform 160ms var(--ease-out);
+	}
+
+	.strip-step svg {
+		stroke-width: 1.75;
+		transition: translate 200ms var(--ease-out);
+	}
+
+	.strip-step:disabled {
+		opacity: 0.3;
+	}
+
+	.strip-step:not(:disabled):active {
+		transform: scale(0.9);
+	}
+
+	.strip-dots {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		padding-inline: 0.375rem;
+	}
+
+	.strip-dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 999px;
+		background: rgb(var(--on) / 0.4);
+		transition:
+			width 360ms var(--ease-out),
+			background-color 200ms var(--ease-out);
+	}
+
+	.strip-dot[data-current='true'] {
+		width: 1rem;
+		background: rgb(var(--on));
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.strip-step:not(:disabled):hover {
+			background: var(--controls-hover);
+		}
+
+		.strip-step:first-child:not(:disabled):hover svg {
+			translate: -1px 0;
+		}
+
+		.strip-step:last-of-type:not(:disabled):hover svg {
+			translate: 1px 0;
+		}
+	}
+
+	/*
+	 * Selected work. Small screens, reduced motion and browsers without scroll-linked animation
+	 * get a column of cards that slide in from the right. Large screens pin the section, and the
+	 * page's own scroll carries the cards across from right to left, one after another.
+	 */
+	.work {
+		margin-top: 6rem;
+		overflow-x: clip;
+	}
+
+	.work-frame {
+		display: contents;
+	}
+
+	.work-head {
+		grid-column: content;
+	}
+
+	.work-nav {
+		display: none;
+	}
+
+	.work-track {
+		grid-column: wide;
+		display: grid;
+		gap: 1.25rem;
+		margin-top: 2rem;
+	}
+
+	@media (min-width: 768px) {
+		.work {
+			margin-top: 8rem;
+		}
+
+		.work-track {
+			gap: 1.5rem;
+		}
+	}
+
+	@supports (animation-timeline: view()) {
+		@media (min-width: 1024px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
+			.work {
+				--gap: 1.5rem;
+				--hold: 25vh;
+				--card-vw: min(60rem, 100vw - max(1rem, (100vw - 64rem) / 2) - 7rem);
+				display: block;
+				height: calc(100vh + 2 * var(--hold) + (var(--n) - 1) * (var(--card-vw) + var(--gap)));
+				margin-top: 3rem;
+				animation: work-progress linear both;
+				animation-timeline: view();
+				animation-range: contain var(--hold) contain calc(100% - var(--hold));
+			}
+
+			.work-frame {
+				--start: max(1rem, (100cqw - 64rem) / 2);
+				--card: min(60rem, 100cqw - var(--start) - 7rem);
+				position: sticky;
+				top: 0;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				height: 100vh;
+				overflow: clip;
+				container-type: inline-size;
+			}
+
+			.work-head {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 2rem;
+				margin-bottom: 1.75rem;
+				padding-inline: var(--start) calc(100cqw - var(--start) - var(--card));
+			}
+
+			.work-nav {
+				display: block;
+			}
+
+			.work-track {
+				display: flex;
+				align-items: stretch;
+				gap: var(--gap);
+				width: max-content;
+				margin: 0;
+				padding-inline: var(--start);
+				translate: calc(var(--progress) * (var(--n) - 1) * (var(--card) + var(--gap)) * -1) 0;
+				will-change: translate;
+			}
+
+			/* How far each card is from its resting place: below 0 still to come, above 0 gone past */
+			.work-track > .panel {
+				--d: calc(var(--progress) * (var(--n) - 1) - var(--i));
+				--ahead: clamp(0, -1 * var(--d), 1);
+				--behind: clamp(0, var(--d), 1);
+				flex: none;
+				width: var(--card);
+				animation: none;
+				scale: calc(1 - 0.05 * var(--ahead) - 0.04 * var(--behind));
+				opacity: calc(1 - 0.5 * var(--behind));
+			}
+
+			/* The window trails its card slightly as it arrives, so the two read as layers */
+			.work-track > .panel .panel-media {
+				translate: calc(var(--ahead) * 3.5rem) 0;
+			}
+
+			.work-track > .panel .panel-text {
+				translate: calc(var(--ahead) * 1.25rem) 0;
+				opacity: calc(1 - 0.25 * var(--ahead));
+			}
+		}
+	}
+
+	@keyframes work-progress {
+		from {
+			--progress: 0;
+		}
+
+		to {
+			--progress: 1;
+		}
+	}
+
+	/* Logos above the rail: the card in view lights up and lifts with a glow in its colour */
+	.work-nav ul {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	.work-nav button {
+		display: block;
+		border-radius: 8px;
+		opacity: 0.45;
+		filter: grayscale(1);
+		box-shadow: 0 0 0 1px var(--logo-ring);
+		transition:
+			opacity 240ms var(--ease-out),
+			filter 240ms var(--ease-out),
+			translate 240ms var(--ease-out),
+			box-shadow 240ms var(--ease-out),
+			scale 160ms var(--ease-out);
+	}
+
+	.work-nav img {
+		display: block;
+		width: 28px;
+		height: 28px;
+		border-radius: 8px;
+	}
+
+	.work-nav button[aria-current='true'] {
+		opacity: 1;
+		filter: none;
+		translate: 0 -2px;
+		box-shadow:
+			0 0 0 1px var(--logo-ring),
+			0 6px 12px -4px color-mix(in oklab, var(--glow) 70%, transparent);
+	}
+
+	.work-nav button:active {
+		scale: 0.92;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.work-nav button:hover {
+			opacity: 1;
+			filter: none;
+		}
+	}
+
+	/* Footer socials: hand-drawn tiles in each network's colour */
+	.social {
+		display: block;
+		border-radius: 11px;
+		box-shadow:
+			0 1px 2px rgb(0 0 0 / 0.12),
+			0 0 0 1px var(--logo-ring);
+		transition:
+			transform 220ms var(--ease-out),
+			box-shadow 220ms var(--ease-out);
+	}
+
+	.social svg {
+		display: block;
+	}
+
+	.social:active {
+		transform: scale(0.94);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.social:hover {
+			transform: translateY(-3px);
+			box-shadow:
+				0 6px 8px -4px var(--glow),
+				0 0 0 1px var(--logo-ring);
+		}
+	}
+
+	/*
+	 * Ambient glow, the footer tiles' glow for photos and logos: a blurred copy of the image
+	 * sits just beneath it, so each one casts light in its own colours.
+	 */
+	.ambient {
+		position: relative;
+		isolation: isolate;
+	}
+
+	.ambient::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		border-radius: inherit;
+		background: var(--ambient) center / cover;
+		filter: blur(var(--ambient-blur, 18px)) saturate(1.6);
+		opacity: var(--ambient-strength);
+		transform: translateY(var(--ambient-y, 10px)) scale(0.92);
+		transition:
+			opacity 400ms var(--ease-out),
+			transform 400ms var(--ease-out);
+		pointer-events: none;
+	}
+
+	.ambient-image {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		border-radius: inherit;
+		filter: blur(var(--ambient-blur, 24px)) saturate(1.5);
+		opacity: var(--ambient-strength);
+		transform: translateY(var(--ambient-y, 14px)) scale(0.94);
+		transition:
+			opacity 400ms var(--ease-out),
+			transform 400ms var(--ease-out);
+		pointer-events: none;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.group:hover .ambient::before,
+		.group:hover .ambient-image {
+			opacity: calc(var(--ambient-strength) + 0.2);
+			transform: translateY(calc(var(--ambient-y, 12px) + 4px)) scale(0.98);
+		}
+	}
+
+	/* A raised surface, like a tile: a soft top-lit gradient, a hairline of light and a small shadow */
+	.raised {
+		background: linear-gradient(to bottom, var(--raise-from), var(--raise-to));
+		box-shadow:
+			inset 0 1px 0 var(--raise-shine),
+			0 0 0 1px var(--raise-ring),
+			0 1px 2px var(--raise-drop),
+			0 4px 10px -6px var(--raise-drop);
+	}
+
+	.nav-item {
+		transition:
+			color 200ms var(--ease-out),
+			background-color 200ms var(--ease-out),
+			box-shadow 200ms var(--ease-out),
+			transform 160ms var(--ease-out);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.raise-on-hover:hover {
+			background: linear-gradient(to bottom, var(--raise-from), var(--raise-to));
+			box-shadow:
+				inset 0 1px 0 var(--raise-shine),
+				0 0 0 1px var(--raise-ring),
+				0 1px 2px var(--raise-drop);
+		}
+	}
+
+	/* Brand logos: small rounded squares with a hairline so white logos hold their shape */
+	.logo {
+		flex: none;
+		border-radius: 6px;
+		box-shadow: 0 0 0 1px var(--logo-ring);
+	}
+
+	/* Theme toggle: the outgoing icon shrinks and blurs away as the other arrives */
+	.theme-icon {
+		opacity: 0;
+		transform: scale(0.6) rotate(-30deg);
+		filter: blur(2px);
+		transition:
+			opacity 200ms var(--ease-out),
+			transform 300ms var(--ease-out),
+			filter 200ms var(--ease-out);
+	}
+
+	.theme-icon[data-shown='true'] {
+		opacity: 1;
+		transform: none;
+		filter: none;
+	}
+
+	/* First paint: content settles into place, one piece after another */
+	.enter {
+		animation: enter 800ms var(--ease-out) both;
+		animation-delay: calc(var(--i, 0) * 70ms);
+	}
+
+	@keyframes enter {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+			filter: blur(6px);
+		}
+	}
+
+	/* Stacked cards slide in from the right as they scroll in, where the browser supports it */
+	@supports (animation-timeline: view()) {
+		.rise {
+			animation: rise linear both;
+			animation-timeline: view();
+			animation-range: entry 0% entry 70%;
+		}
+
+		@keyframes rise {
+			from {
+				transform: translateX(min(18vw, 96px)) scale(0.96);
+			}
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.enter,
+		.rise {
+			animation: none;
+		}
+
+		.theme-icon {
+			transition: none;
+		}
+
+		.shot-link img,
+		.live-frame,
+		.press,
+		.social,
+		.panel-link,
+		.arrow-swap > svg,
+		.strip-step,
+		.strip-step svg,
+		.strip-dot,
+		.shot-lights i,
+		.work-nav button,
+		.ambient::before,
+		.ambient-image,
+		.nav-item {
+			transition: none;
+		}
+
+		.shot:has(.live-frame[data-loaded='true']) .shot-address::before {
+			animation: none;
+		}
+
+		.panel-link:hover,
+		.panel-link:hover .arrow-swap > svg:first-child,
+		.strip-step:hover svg {
+			translate: none;
+		}
+
+		.panel-link:hover .arrow-swap > svg:last-child {
+			translate: -160% 160%;
+		}
+
+		.shot-link:hover img,
+		.press:active,
+		.social:hover,
+		.social:active {
+			transform: none;
+		}
+	}
+}
+
+/* Article typography */
+.prose {
+	font-size: 1.0625rem;
+	line-height: 1.7;
+	color: var(--ink-2);
+}
+
+.prose > * + * {
+	margin-top: 1.25em;
+}
+
+.prose h2,
+.prose h3 {
+	color: var(--ink);
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	margin-top: 2.2em;
+}
+
+.prose h2 {
+	font-size: 1.375rem;
+}
+
+.prose h3 {
+	font-size: 1.125rem;
+}
+
+.prose a {
+	color: var(--ink);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-decoration-color: color-mix(in oklab, currentColor 30%, transparent);
+	text-underline-offset: 0.22em;
+}
+
+.prose strong {
+	color: var(--ink);
+	font-weight: 600;
+}
+
+.prose ul {
+	list-style: disc;
+	padding-left: 1.25em;
+}
+
+.prose ol {
+	list-style: decimal;
+	padding-left: 1.25em;
+}
+
+.prose li + li {
+	margin-top: 0.35em;
+}
+
+.prose img {
+	border-radius: 12px;
+	box-shadow: 0 0 0 1px var(--line);
+}
+
+.prose :not(pre) > code {
+	font-size: 0.875em;
+	padding: 0.1em 0.35em;
+	border-radius: 6px;
+	background: var(--surface);
+	box-shadow: 0 0 0 1px var(--line);
+	color: var(--ink);
+}
+
+.prose pre {
+	overflow-x: auto;
+	padding: 1.125rem 1.25rem;
+	border-radius: 12px;
+	background: var(--surface);
+	box-shadow: 0 0 0 1px var(--line);
+	font-size: 0.8125rem;
+	line-height: 1.7;
+}
+
+.prose pre code {
+	display: grid;
+}
+
+.prose pre span {
+	color: var(--shiki-light);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) .prose pre span {
+		color: var(--shiki-dark);
+	}
+}
+
+:root[data-theme='dark'] .prose pre span {
+	color: var(--shiki-dark);
+}
+
+/* Theme switch: a quick crossfade of the whole page */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 280ms;
+	animation-timing-function: var(--ease-out);
+}
