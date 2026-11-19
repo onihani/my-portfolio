@@ -1,24 +1,21 @@
-import { site, skillGroups, socials } from '@/content/site'
+import { links, site } from '@/content/site'
 
 export const PersonJsonLd = () => {
 	const person = {
 		'@context': 'https://schema.org',
 		'@type': 'Person',
 		name: site.name,
-		alternateName: site.shortName,
+		alternateName: 'Nat',
 		url: site.url,
 		image: `${site.url}/images/me-1-1.jpeg`,
-		jobTitle: site.role,
-		email: `mailto:${site.email}`,
+		jobTitle: 'Software engineer',
 		address: { '@type': 'PostalAddress', addressLocality: 'Accra', addressCountry: 'GH' },
-		sameAs: socials.map((social) => social.href),
-		knowsAbout: skillGroups.flatMap((group) => group.items).slice(0, 24),
+		sameAs: links.filter((link) => link.href.startsWith('https')).map((link) => link.href),
 	}
 
 	return (
 		<script
 			type="application/ld+json"
-			// JSON-LD must be a raw script body. The content is static and our own.
 			dangerouslySetInnerHTML={{ __html: JSON.stringify(person).replace(/</g, '\\u003c') }}
 		/>
 	)

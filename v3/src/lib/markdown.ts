@@ -93,7 +93,7 @@ export const renderArticle = async (sourceFile: string): Promise<RenderedArticle
 		.use(rehypeImageDimensions)
 		.use(rehypeExternalLinks)
 		.use(rehypePrettyCode, {
-			theme: { light: 'github-light', dark: 'github-dark-dimmed' },
+			theme: { light: 'github-light-high-contrast', dark: 'github-dark-high-contrast' },
 			keepBackground: false,
 			defaultLang: 'plaintext',
 		})

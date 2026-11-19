@@ -1,152 +1,128 @@
-import type { OpenSourceRepo, SmallProject } from '@/content/types'
+import type { PastProject, SelectedProject } from '@/content/types'
 
+import wayasendDashboard from '@/assets/work/wayasend/dashboard.webp'
+import wayasendCards from '@/assets/work/wayasend/cards.webp'
+import wayasendSend from '@/assets/work/wayasend/send.webp'
+import wayasendLanding from '@/assets/work/wayasend/landing.webp'
+import gtaLicence from '@/assets/work/gta/licence.webp'
+import gtaLookup from '@/assets/work/gta/lookup.webp'
+import gtaHome from '@/assets/work/gta/home.webp'
+import rendevuAiSearch from '@/assets/work/rendevu/ai-search.webp'
+import rendevuHome from '@/assets/work/rendevu/home.webp'
+import kendalHome from '@/assets/work/kendal/home.webp'
+import medtrackApp from '@/assets/work/medtrack/app.webp'
+import medtrackHome from '@/assets/work/medtrack/home.webp'
+import soccersmHome from '@/assets/work/soccersm/home.webp'
 import rehobothHome from '@/assets/work/rehoboth/home.webp'
 import gasuHome from '@/assets/work/gasu/home.webp'
-import soccersmHome from '@/assets/work/soccersm/home.webp'
 
-export const smallProjects: Array<SmallProject> = [
+export const selectedProjects: Array<SelectedProject> = [
+	{
+		name: 'WayaSend',
+		role: 'Founder',
+		description:
+			'USD virtual cards and money transfers across Africa. I built the Go backend, the web app and the KYC flow.',
+		link: { label: 'usewayasend.com', href: 'https://usewayasend.com' },
+		shots: [
+			{
+				image: wayasendDashboard,
+				alt: 'WayaSend dashboard with wallet balance, a virtual card and transactions',
+			},
+			{ image: wayasendCards, alt: 'WayaSend cards page with card funding history' },
+			{ image: wayasendSend, alt: 'WayaSend send money flow' },
+			{ image: wayasendLanding, alt: 'WayaSend landing page' },
+		],
+		note: null,
+	},
+	{
+		name: 'Ghana Tourism Authority',
+		role: 'Full-stack engineer, Bashtech',
+		description:
+			'The national licensing portal for tourism businesses in Ghana. Registration, licence applications and a five-level approval workflow.',
+		link: { label: 'gta.gov.gh', href: 'https://gta.gov.gh' },
+		shots: [
+			{ image: gtaLicence, alt: 'A verified licence record on the Ghana Tourism Authority portal' },
+			{ image: gtaLookup, alt: 'Licence search suggesting a business while typing' },
+			{ image: gtaHome, alt: 'Ghana Tourism Authority portal home page' },
+		],
+		note: null,
+	},
+	{
+		name: 'Rendevu',
+		role: 'Web3',
+		description:
+			'Onchain events on Base: tickets, check-ins and attendance proofs, with search you can ask in plain English.',
+		link: { label: 'GitHub', href: 'https://github.com/rendevu-dapp' },
+		shots: [
+			{ image: rendevuAiSearch, alt: 'Rendevu explore page with a natural-language search' },
+			{ image: rendevuHome, alt: 'Rendevu home page' },
+		],
+		note: 'Explore is shown with sample events.',
+	},
+	{
+		name: 'Kendal AI',
+		role: 'Full-stack engineer, CrowdPad',
+		description:
+			'An AI-powered CRM for real estate agents. I rebuilt listing management, search, portal feeds and the WhatsApp integration.',
+		link: { label: 'kendal.ai', href: 'https://www.kendal.ai' },
+		shots: [{ image: kendalHome, alt: 'Kendal AI website' }],
+		note: null,
+	},
+	{
+		name: 'Medtrack',
+		role: 'Full-stack engineer',
+		description: 'Health records for Africa, linked to national biometric IDs.',
+		link: { label: 'medtrack.africa', href: 'https://medtrack.africa' },
+		shots: [
+			{ image: medtrackApp, alt: 'Medtrack facility app with a list of patients' },
+			{ image: medtrackHome, alt: 'Medtrack website' },
+		],
+		note: null,
+	},
 	{
 		name: 'Soccersm',
-		description:
-			'An AI tool that gives pre-match predictions and analysis for all major leagues. I worked mainly on the backend at Hurisoft.',
-		role: 'Backend engineer',
-		stack: ['TypeScript', 'Node.js', 'MongoDB', 'AWS'],
+		role: 'Backend engineer, Hurisoft',
+		description: 'AI pre-match predictions and analysis for the major football leagues.',
 		link: { label: 'soccersm.ai', href: 'https://soccersm.ai' },
-		status: 'live',
-		shot: {
-			image: soccersmHome,
-			alt: 'Soccersm predictions page with match cards and confidence scores',
-			caption: 'Match predictions with confidence scores.',
-		},
+		shots: [{ image: soccersmHome, alt: 'Soccersm predictions page' }],
+		note: null,
 	},
 	{
 		name: 'Rehoboth Immigration Law',
-		description:
-			'Website for a US-based immigration law firm, where people book a consultation with the principal attorney or contact the firm.',
-		role: 'Designer and developer',
-		stack: ['TODO(Nat): stack'],
+		role: 'Design and development',
+		description: 'Website for a US immigration law firm, with consultation booking.',
 		link: { label: 'rehobothlawus.com', href: 'https://rehobothlawus.com' },
-		status: 'live',
-		shot: {
-			image: rehobothHome,
-			alt: 'Rehoboth Law website hero with a client testimonial and a Book a Consultation button',
-			caption: 'Home page with consultation booking.',
-		},
+		shots: [{ image: rehobothHome, alt: 'Rehoboth Law website' }],
+		note: null,
 	},
 	{
-		name: 'GASU Africa',
-		description:
-			'Supporters website for the Great African Supporters Union, where new members join the club and follow ongoing and upcoming projects.',
-		role: 'Developer',
-		stack: ['TypeScript', 'TODO(Nat): framework'],
+		name: 'GASU',
+		role: 'Development',
+		description: 'Supporters club website for the Great African Supporters Union.',
 		link: { label: 'gasu.africa', href: 'https://www.gasu.africa' },
-		status: 'live',
-		shot: {
-			image: gasuHome,
-			alt: 'GASU website hero with the headline Great African Supporters Union',
-			caption: 'Member onboarding starts here.',
-		},
-	},
-	{
-		name: 'Kwantu',
-		description:
-			'A luxury vehicle and chauffeur booking platform. Python APIs on Frappe for bookings, vehicles, drivers and fleet stats, a Vue operator dashboard with trip tracking and chauffeur assignment, online payments and trip pricing.',
-		role: 'Full-stack engineer',
-		stack: ['Python', 'Frappe', 'Vue'],
-		link: null,
-		status: 'discontinued',
-		shot: null,
-	},
-	{
-		name: 'Sampeur LMS',
-		description:
-			'A multilingual learning platform with a GraphQL API, BullMQ job queues and video transcoding.',
-		role: 'TODO(Nat): role',
-		stack: ['GraphQL', 'BullMQ', 'TypeScript'],
-		link: null,
-		status: 'private',
-		shot: null,
-	},
-	{
-		name: 'Natural language to GraphQL CLI',
-		description: 'A command-line tool that turns a plain-English question into a GraphQL query.',
-		role: 'Builder',
-		stack: ['Bun', 'OpenAI SDK', 'GraphQL'],
-		link: null,
-		status: 'private',
-		shot: null,
-	},
-	{
-		name: 'Ballot Bloc',
-		description:
-			'A voting app on the Tezos blockchain for transparent, secure voting. I wrote and integrated the APIs and maintain the UI and API.',
-		role: 'API developer',
-		stack: ['Tezos', 'TODO(Nat): stack'],
-		link: { label: 'ballotbloc.com', href: 'https://ballotbloc.com' },
-		status: 'offline',
-		shot: null,
-	},
-	{
-		name: 'Big Girls Rise NFT & Auction',
-		description:
-			'Website and NFT auction for a platform that educates, supports and empowers young women through NFTs and Web3.',
-		role: 'Designer and developer',
-		stack: ['TODO(Nat): stack'],
-		link: null,
-		status: 'offline',
-		shot: null,
-	},
-	{
-		name: 'TechBuzz Africa',
-		description:
-			"A blog and news platform covering Africa's startup ecosystem and the companies leading technology adoption on the continent.",
-		role: 'Developer',
-		stack: ['TODO(Nat): stack'],
-		link: null,
-		status: 'offline',
-		shot: null,
-	},
-	{
-		name: 'OCQFund',
-		description:
-			'Gave traders access to funded trading accounts through a two-step evaluation designed to discover trading talent.',
-		role: 'Developer',
-		stack: ['JavaScript'],
-		link: null,
-		status: 'discontinued',
-		shot: null,
+		shots: [{ image: gasuHome, alt: 'GASU website' }],
+		note: null,
 	},
 ]
 
-export const openSourceRepos: Array<OpenSourceRepo> = [
+export const pastProjects: Array<PastProject> = [
+	{
+		name: 'Jodi Drilling ERP',
+		context: 'Bashtech',
+		description: 'Custom Frappe ERP for safety, HR and payroll',
+		link: null,
+	},
+	{
+		name: 'Kwantu',
+		context: 'Bashtech',
+		description: 'Luxury vehicle and chauffeur booking',
+		link: null,
+	},
+	{ name: 'Ballot Bloc', context: 'Tezos', description: 'Transparent onchain voting', link: null },
 	{
 		name: 'go-tweet',
-		description: 'A small Go CLI for downloading videos from X (Twitter).',
-		language: 'Go',
-		href: 'https://github.com/onihani/go-tweet',
-	},
-	{
-		name: 'fungible-token-with-near-js-sdk',
-		description: 'NEP-141 fungible token on NEAR with the JS SDK. Companion code for my tutorial.',
-		language: 'TypeScript',
-		href: 'https://github.com/onihani/fungible-token-with-near-js-sdk',
-	},
-	{
-		name: 'buidl-guidl-ctf-solutions',
-		description: 'My solutions to the BuidlGuidl capture-the-flag smart contract challenges.',
-		language: 'Solidity',
-		href: 'https://github.com/onihani/buidl-guidl-ctf-solutions',
-	},
-	{
-		name: 'PeerTrade',
-		description: 'An automated peer-to-peer app for trading crypto tokens.',
-		language: 'TypeScript',
-		href: 'https://github.com/onihani/PeerTrade',
-	},
-	{
-		name: 'filepond-php-server-example',
-		description: 'A sample FilePond server implementation in PHP.',
-		language: 'PHP',
-		href: 'https://github.com/onihani/filepond-php-server-example',
+		context: 'Open source',
+		description: 'Go CLI for downloading videos from X',
+		link: { label: 'GitHub', href: 'https://github.com/onihani/go-tweet' },
 	},
 ]

@@ -10,7 +10,7 @@ type OgImageContent = {
 	subtitle: string
 }
 
-// One typographic card for every page, in the site's Paper palette.
+// One quiet typographic card, in the site's palette.
 export const renderOgImage = ({ eyebrow, title, subtitle }: OgImageContent) =>
 	new ImageResponse(
 		<div
@@ -21,33 +21,32 @@ export const renderOgImage = ({ eyebrow, title, subtitle }: OgImageContent) =>
 				flexDirection: 'column',
 				justifyContent: 'space-between',
 				padding: '72px 80px',
-				background: '#f6f5f1',
-				color: '#121211',
+				background: '#f4f3f0',
+				color: '#1b1b1a',
 			}}
 		>
 			<div
-				style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: 28, color: '#6b6963' }}
+				style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: 28, color: '#75736d' }}
 			>
-				<div style={{ width: 14, height: 14, borderRadius: 999, background: '#e8572a' }} />
 				{eyebrow}
 			</div>
 			<div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 				<div
 					style={{
 						fontSize: title.length > 48 ? 64 : 80,
-						fontWeight: 700,
-						letterSpacing: '-0.04em',
+						fontWeight: 500,
+						letterSpacing: '-0.02em',
 						lineHeight: 1.04,
 					}}
 				>
 					{title}
 				</div>
-				<div style={{ fontSize: 32, color: '#45443f', lineHeight: 1.35, maxWidth: 980 }}>
+				<div style={{ fontSize: 32, color: '#75736d', lineHeight: 1.35, maxWidth: 980 }}>
 					{subtitle}
 				</div>
 			</div>
 			<div
-				style={{ display: 'flex', justifyContent: 'space-between', fontSize: 26, color: '#6b6963' }}
+				style={{ display: 'flex', justifyContent: 'space-between', fontSize: 26, color: '#75736d' }}
 			>
 				<span>{site.name}</span>
 				<span>nathanielquansah.com</span>

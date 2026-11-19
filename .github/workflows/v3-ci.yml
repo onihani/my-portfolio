@@ -1,0 +1,61 @@
+name: v3 CI
+
+on:
+  push:
+    branches: [main, dev, v3]
+    paths: ['v3/**', '.github/workflows/v3-ci.yml']
+  pull_request:
+    paths: ['v3/**', '.github/workflows/v3-ci.yml']
+
+concurrency:
+  group: v3-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: v3
+
+jobs:
+  check:
+    name: Typecheck, lint, build, smoke tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: v3/package-lock.json
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Formatting
+        run: npm run format:check
+
+      - name: Copy rules (no em dashes)
+        run: npm run check:copy
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Smoke tests
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: v3/playwright-report
+          retention-days: 7

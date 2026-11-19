@@ -8,7 +8,6 @@ export const writingPosts: Array<WritingPost> = [
 			'A step-by-step guide to building, testing and deploying a NEP-141 fungible token on NEAR with the JavaScript SDK.',
 		publishedAt: '2024-06-03',
 		readingMinutes: 26,
-		tags: ['NEAR', 'Smart contracts', 'TypeScript'],
 		cover: '/writing/near-fungible-tokens/cover.jpg',
 		originalUrl: 'https://onihani.hashnode.dev/building-fungible-tokens-with-the-near-js-sdk',
 		sourceFile: 'building-fungible-tokens-with-the-near-js-sdk.md',

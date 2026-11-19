@@ -13,7 +13,8 @@ const eslintConfig = defineConfig([
 			'no-restricted-syntax': [
 				'error',
 				{
-					selector: "JSXExpressionContainer > LogicalExpression[operator='&&']",
+					selector:
+						":matches(JSXElement, JSXFragment) > JSXExpressionContainer > LogicalExpression[operator='&&']",
 					message: 'Use a ternary (cond ? <X /> : null) instead of && in JSX.',
 				},
 			],
