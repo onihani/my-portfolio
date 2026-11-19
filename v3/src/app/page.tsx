@@ -1,142 +1,77 @@
-import Image from 'next/image'
-import Link from 'next/link'
-
 import { ArrowUpRightIcon } from '@/components/icons'
-import { pastProjects, selectedProjects } from '@/content/projects'
-import { links, site } from '@/content/site'
-import { writingPosts } from '@/content/writing'
-import { formatLongDate } from '@/lib/dates'
-import portrait from '../../public/images/me-1-1.jpeg'
+import { ProjectEntry } from '@/components/project-entry'
+import { earlierProjects, projects } from '@/content/projects'
+import { site } from '@/content/site'
 
 const HomePage = () => (
 	<>
-		<header>
-			<Image
-				src={portrait}
-				alt="Nathaniel Quansah"
-				width={56}
-				height={56}
-				priority
-				className="size-14 rounded-full object-cover"
-			/>
-			<h1 className="mt-6 text-[1.375rem] font-medium tracking-[-0.01em]">{site.name}</h1>
-			<p className="text-muted">{site.headline}</p>
-		</header>
-
-		<section aria-label="About" className="mt-12 grid gap-4">
-			<p>
-				I build payments and production web platforms, mostly in Go and TypeScript. Right now I am
-				building{' '}
-				<a href="https://usewayasend.com" className="text-link">
-					WayaSend
-				</a>
-				, USD cards and money transfers for Africa.
+		<section aria-labelledby="intro">
+			<h1
+				id="intro"
+				className="enter text-[2rem] leading-tight font-medium tracking-[-0.025em] md:text-[2.5rem]"
+			>
+				{site.name}
+			</h1>
+			<p className="enter mt-1 text-[1.1875rem] text-muted md:text-[1.375rem]" style={{ '--i': 1 }}>
+				{site.headline}
 			</p>
-			<p>
-				Before that I worked with Bashtech, Medtrack, CrowdPad and Hurisoft on government, health
-				and real estate software.
+			<p className="enter mt-6 max-w-[34rem] text-ink-2" style={{ '--i': 2 }}>
+				I build payments and web platforms, from government licensing to health records and fintech.
+				Most of what I make is below.
 			</p>
-			<ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-muted">
-				{links.map((link) => (
-					<li key={link.label}>
-						<a href={link.href} className="text-link hover:text-ink">
-							{link.label}
-						</a>
-					</li>
-				))}
-			</ul>
+			<a
+				href={site.building.href}
+				target="_blank"
+				rel="noreferrer"
+				className="enter press mt-6 inline-flex items-center gap-2.5 rounded-full bg-surface py-1.5 pr-3 pl-3.5 text-[0.9375rem] shadow-[0_0_0_1px_var(--line)]"
+				style={{ '--i': 3 }}
+			>
+				<span className="live-dot" aria-hidden="true" />
+				<span>
+					Building <span className="font-medium">{site.building.name}</span>
+				</span>
+				<ArrowUpRightIcon className="size-3.5 text-muted" />
+			</a>
 		</section>
 
-		<section aria-labelledby="selected-work" className="mt-24">
-			<h2 id="selected-work" className="font-medium">
-				Selected work
+		<section aria-labelledby="work" className="layout col-[full]! mt-24 md:mt-32">
+			<h2 id="work" className="enter text-[1.25rem] font-medium" style={{ '--i': 4 }}>
+				Work
 			</h2>
-			<ul className="mt-8 grid gap-16">
-				{selectedProjects.map((project, projectIndex) => (
-					<li key={project.name}>
+			<div className="wide mt-8 grid gap-16 md:gap-24">
+				{projects.map((project, index) => (
+					<ProjectEntry key={project.slug} project={project} isFirst={index === 0} />
+				))}
+			</div>
+		</section>
+
+		<section aria-labelledby="earlier" className="mt-24 md:mt-32">
+			<h2 id="earlier" className="text-[1.25rem] font-medium">
+				Earlier
+			</h2>
+			<ul className="mt-6 grid gap-5">
+				{earlierProjects.map((project) => (
+					<li key={project.name} className="grid gap-0.5">
 						<div className="flex items-baseline justify-between gap-4">
-							<h3 className="font-medium">{project.name}</h3>
-							<a
-								href={project.link.href}
-								target="_blank"
-								rel="noreferrer"
-								className="inline-flex shrink-0 items-center gap-1 text-[0.9375rem] text-muted hover:text-ink"
-							>
-								{project.link.label}
-								<ArrowUpRightIcon className="size-3.5" />
-							</a>
-						</div>
-						<p className="text-[0.9375rem] text-muted">{project.role}</p>
-						<p className="mt-2">{project.description}</p>
-						<div className="shots mt-5">
-							{project.shots.map((shot, shotIndex) => (
+							{project.link ? (
 								<a
-									key={shot.image.src}
-									href={shot.image.src}
+									href={project.link.href}
 									target="_blank"
 									rel="noreferrer"
-									className="shot"
-									aria-label={`Open full screenshot: ${shot.alt}`}
+									className="link font-medium"
 								>
-									<Image
-										src={shot.image}
-										alt={shot.alt}
-										sizes="(min-width: 768px) 608px, 86vw"
-										placeholder="blur"
-										priority={projectIndex === 0 && shotIndex === 0}
-										className="block h-auto w-full"
-									/>
+									{project.name}
 								</a>
-							))}
+							) : (
+								<span className="font-medium">{project.name}</span>
+							)}
+							<span className="shrink-0 text-[0.9375rem] text-muted">{project.context}</span>
 						</div>
-						{project.note ? <p className="text-[0.875rem] text-muted">{project.note}</p> : null}
+						<p className="text-ink-2">{project.description}</p>
 					</li>
 				))}
 			</ul>
 		</section>
-
-		<section aria-labelledby="writing" className="mt-24">
-			<h2 id="writing" className="font-medium">
-				Writing
-			</h2>
-			<ul className="mt-6 grid gap-3">
-				{writingPosts.map((post) => (
-					<li key={post.slug} className="grid gap-x-6 sm:grid-cols-[7.5rem_1fr]">
-						<span className="text-[0.9375rem] text-muted tabular-nums">
-							{formatLongDate(post.publishedAt)}
-						</span>
-						<Link href={`/writing/${post.slug}`} className="text-link">
-							{post.title}
-						</Link>
-					</li>
-				))}
-			</ul>
-		</section>
-
-		<section aria-labelledby="past-projects" className="mt-24">
-			<h2 id="past-projects" className="font-medium">
-				Past projects
-			</h2>
-			<ul className="mt-6 grid gap-3">
-				{pastProjects.map((project) => (
-					<li key={project.name}>
-						{project.link ? (
-							<a href={project.link.href} target="_blank" rel="noreferrer" className="text-link">
-								{project.name}
-							</a>
-						) : (
-							<span>{project.name}</span>
-						)}
-						<span className="text-muted">
-							{' '}
-							· {project.context}. {project.description}.
-						</span>
-					</li>
-				))}
-			</ul>
-		</section>
-
-		<footer className="mt-24 text-[0.875rem] text-muted">{site.name}</footer>
 	</>
 )
 

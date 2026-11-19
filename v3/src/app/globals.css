@@ -1,26 +1,32 @@
 @import 'tailwindcss';
 
 /*
- * The whole design system: one typeface (the system font), two text colours,
- * one surface and one line colour. It follows the device's light or dark mode.
+ * Design system
+ * - Neutrals follow Apple's: a cool off-white page, near-black ink, true black in dark mode.
+ * - Colour comes from the work itself: every project sits on its own brand colour.
+ * - One typeface, Host Grotesk, in three weights.
  */
 
 :root {
 	color-scheme: light dark;
-	--bg: #f4f3f0;
+	--bg: #f5f5f7;
 	--surface: #ffffff;
-	--ink: #1b1b1a;
-	--muted: #75736d;
-	--line: #e3e1dc;
+	--ink: #1d1d1f;
+	--ink-2: #424245;
+	--muted: #6e6e73;
+	--line: #dcdce1;
+	--live: #34c759;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--bg: #121211;
-		--surface: #1b1b1a;
-		--ink: #ecebe7;
-		--muted: #9a9892;
-		--line: #2a2a28;
+		--bg: #000000;
+		--surface: #1c1c1e;
+		--ink: #f5f5f7;
+		--ink-2: #d1d1d6;
+		--muted: #98989d;
+		--line: #2c2c2e;
+		--live: #30d158;
 	}
 }
 
@@ -28,15 +34,15 @@
 	--color-bg: var(--bg);
 	--color-surface: var(--surface);
 	--color-ink: var(--ink);
+	--color-ink-2: var(--ink-2);
 	--color-muted: var(--muted);
 	--color-line: var(--line);
-	--font-sans:
-		-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-		sans-serif;
+	--font-sans: var(--font-host), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 @theme {
 	--ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+	--ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 @layer base {
@@ -44,76 +50,292 @@
 		background: var(--bg);
 		color: var(--ink);
 		font-family: var(--font-sans);
-		font-size: 1rem;
-		line-height: 1.6;
+		font-size: 1.0625rem;
+		line-height: 1.55;
+		letter-spacing: -0.005em;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeLegibility;
+	}
+
+	h1,
+	h2,
+	h3 {
+		text-wrap: balance;
+	}
+
+	p {
+		text-wrap: pretty;
 	}
 
 	::selection {
-		background: var(--line);
+		background: color-mix(in oklab, var(--live) 35%, transparent);
 	}
 
 	:focus-visible {
 		outline: 2px solid var(--ink);
 		outline-offset: 3px;
+		border-radius: 4px;
 	}
 }
 
 @layer components {
-	.page {
-		width: min(100% - 2.5rem, 44rem);
-		margin-inline: auto;
+	/* Page grid: text sits in a narrow column, work panels break out to a wider one */
+	.layout {
+		display: grid;
+		grid-template-columns:
+			[full-start] minmax(1rem, 1fr)
+			[wide-start] minmax(0, 12rem)
+			[content-start] min(100% - 2rem, 40rem)
+			[content-end] minmax(0, 12rem)
+			[wide-end] minmax(1rem, 1fr)
+			[full-end];
 	}
 
-	.text-link {
+	.layout > * {
+		grid-column: content;
+	}
+
+	.layout > .wide {
+		grid-column: wide;
+	}
+
+	.link {
 		text-decoration: underline;
-		text-decoration-color: var(--line);
-		text-underline-offset: 0.2em;
-		transition: text-decoration-color 150ms ease;
+		text-decoration-thickness: 1px;
+		text-decoration-color: color-mix(in oklab, currentColor 30%, transparent);
+		text-underline-offset: 0.22em;
+		transition: text-decoration-color 200ms var(--ease-out);
+	}
+
+	.quiet-link {
+		color: var(--muted);
+		transition: color 200ms var(--ease-out);
 	}
 
 	@media (hover: hover) and (pointer: fine) {
-		.text-link:hover {
+		.link:hover {
 			text-decoration-color: currentColor;
+		}
+
+		.quiet-link:hover {
+			color: var(--ink);
 		}
 	}
 
-	/* Screenshot strip: scrolls sideways and snaps, so one shot leads and the next peeks in */
-	.shots {
-		display: flex;
-		gap: 0.75rem;
-		overflow-x: auto;
-		scroll-snap-type: x mandatory;
-		scrollbar-width: thin;
-		padding-bottom: 0.75rem;
-		overscroll-behavior-x: contain;
+	/* A small pressable element: scales down slightly while held */
+	.press {
+		transition: transform 160ms var(--ease-out);
 	}
 
-	.shots > * {
-		flex: 0 0 86%;
+	.press:active {
+		transform: scale(0.97);
+	}
+
+	/* Live status dot with a soft, slow ring */
+	.live-dot {
+		position: relative;
+		display: inline-block;
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 999px;
+		background: var(--live);
+	}
+
+	.live-dot::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background: var(--live);
+		animation: live-ring 2.4s var(--ease-out) infinite;
+	}
+
+	@keyframes live-ring {
+		from {
+			transform: scale(1);
+			opacity: 0.55;
+		}
+		70%,
+		to {
+			transform: scale(2.6);
+			opacity: 0;
+		}
+	}
+
+	/* Project panel: the project's brand colour with its screenshots on top */
+	.panel {
+		--pad: clamp(1.25rem, 5vw, 3.5rem);
+		position: relative;
+		overflow: hidden;
+		border-radius: 16px;
+		background: var(--panel);
+		padding-block: var(--pad);
+	}
+
+	/* Leave room under the screenshots for the step controls */
+	.panel:has(.strip-controls) {
+		padding-bottom: max(var(--pad), 3.5rem);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.panel {
+			background: color-mix(in oklab, var(--panel) 86%, black);
+			box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.06);
+		}
+	}
+
+	.strip {
+		display: flex;
+		gap: clamp(0.75rem, 2vw, 1.25rem);
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: var(--pad);
+		padding-inline: var(--pad);
+		scrollbar-width: none;
+	}
+
+	.strip::-webkit-scrollbar {
+		display: none;
+	}
+
+	.strip > * {
+		flex: 0 0 100%;
 		scroll-snap-align: start;
 	}
 
-	.shots > :only-child {
-		flex-basis: 100%;
+	.strip:has(> :nth-child(2)) > * {
+		flex-basis: 92%;
 	}
 
 	.shot {
 		display: block;
 		overflow: hidden;
-		border: 1px solid var(--line);
 		border-radius: 10px;
 		background: var(--surface);
+		box-shadow:
+			0 0 0 1px rgb(0 0 0 / 0.06),
+			0 2px 8px rgb(0 0 0 / 0.12);
 		transition: transform 160ms var(--ease-out);
+	}
+
+	.shot img {
+		transition: transform 700ms var(--ease-out);
 	}
 
 	.shot:active {
 		transform: scale(0.985);
 	}
 
+	@media (hover: hover) and (pointer: fine) {
+		.shot:hover img {
+			transform: scale(1.015);
+		}
+	}
+
+	/* Step through a project's screenshots */
+	.strip-controls {
+		position: absolute;
+		right: 0.75rem;
+		bottom: 0.75rem;
+		display: flex;
+		align-items: center;
+		gap: 0.125rem;
+		padding: 0.25rem;
+		border-radius: 999px;
+		background: rgb(0 0 0 / 0.5);
+		color: #fff;
+		font-size: 0.8125rem;
+		font-variant-numeric: tabular-nums;
+		backdrop-filter: blur(12px) saturate(1.4);
+		-webkit-backdrop-filter: blur(12px) saturate(1.4);
+	}
+
+	.strip-controls button {
+		display: grid;
+		place-items: center;
+		width: 1.75rem;
+		height: 1.75rem;
+		border-radius: 999px;
+		transition:
+			background-color 150ms var(--ease-out),
+			opacity 150ms var(--ease-out),
+			transform 160ms var(--ease-out);
+	}
+
+	.strip-controls button:disabled {
+		opacity: 0.35;
+	}
+
+	.strip-controls button:not(:disabled):active {
+		transform: scale(0.9);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.strip-controls button:not(:disabled):hover {
+			background: rgb(255 255 255 / 0.16);
+		}
+	}
+
+	/* Brand logos: small rounded squares with a hairline so white logos hold their shape */
+	.logo {
+		flex: none;
+		border-radius: 6px;
+		box-shadow: 0 0 0 1px rgb(0 0 0 / 0.08);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.logo {
+			box-shadow: 0 0 0 1px rgb(255 255 255 / 0.1);
+		}
+	}
+
+	/* First paint: content settles into place, one piece after another */
+	.enter {
+		animation: enter 800ms var(--ease-out) both;
+		animation-delay: calc(var(--i, 0) * 70ms);
+	}
+
+	@keyframes enter {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+			filter: blur(6px);
+		}
+	}
+
+	/* Panels rise into place as they scroll in, where the browser supports it */
+	@supports (animation-timeline: view()) {
+		.rise {
+			animation: rise linear both;
+			animation-timeline: view();
+			animation-range: entry 0% entry 70%;
+		}
+
+		@keyframes rise {
+			from {
+				transform: translateY(48px) scale(0.96);
+			}
+		}
+	}
+
 	@media (prefers-reduced-motion: reduce) {
-		.shot:active {
+		.enter,
+		.rise,
+		.live-dot::after {
+			animation: none;
+		}
+
+		.shot img,
+		.shot,
+		.press {
+			transition: none;
+		}
+
+		.shot:hover img,
+		.shot:active,
+		.press:active {
 			transform: none;
 		}
 	}
@@ -121,30 +343,41 @@
 
 /* Article typography */
 .prose {
-	line-height: 1.75;
+	font-size: 1.0625rem;
+	line-height: 1.7;
+	color: var(--ink-2);
 }
 
 .prose > * + * {
-	margin-top: 1.2em;
+	margin-top: 1.25em;
 }
 
 .prose h2,
 .prose h3 {
-	font-weight: 500;
+	color: var(--ink);
+	font-weight: 600;
+	letter-spacing: -0.01em;
 	margin-top: 2.2em;
 }
 
 .prose h2 {
-	font-size: 1.25rem;
+	font-size: 1.375rem;
+}
+
+.prose h3 {
+	font-size: 1.125rem;
 }
 
 .prose a {
+	color: var(--ink);
 	text-decoration: underline;
-	text-decoration-color: var(--line);
-	text-underline-offset: 0.2em;
+	text-decoration-thickness: 1px;
+	text-decoration-color: color-mix(in oklab, currentColor 30%, transparent);
+	text-underline-offset: 0.22em;
 }
 
 .prose strong {
+	color: var(--ink);
 	font-weight: 600;
 }
 
@@ -163,24 +396,25 @@
 }
 
 .prose img {
-	border: 1px solid var(--line);
-	border-radius: 10px;
+	border-radius: 12px;
+	box-shadow: 0 0 0 1px var(--line);
 }
 
 .prose :not(pre) > code {
 	font-size: 0.875em;
 	padding: 0.1em 0.35em;
-	border-radius: 5px;
+	border-radius: 6px;
 	background: var(--surface);
-	border: 1px solid var(--line);
+	box-shadow: 0 0 0 1px var(--line);
+	color: var(--ink);
 }
 
 .prose pre {
 	overflow-x: auto;
-	padding: 1rem;
-	border: 1px solid var(--line);
-	border-radius: 10px;
+	padding: 1.125rem 1.25rem;
+	border-radius: 12px;
 	background: var(--surface);
+	box-shadow: 0 0 0 1px var(--line);
 	font-size: 0.8125rem;
 	line-height: 1.7;
 }

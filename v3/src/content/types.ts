@@ -10,20 +10,32 @@ export type ProjectShot = {
 	alt: string
 }
 
-export type SelectedProject = {
+export type Project = {
+	slug: string
 	name: string
-	role: string
 	description: string
 	link: ExternalLink
+	logo: StaticImageData
+	/** The project's own brand colour, used for the panel behind its screenshots */
+	color: string
+	/** Ordered from the public landing page through to the signed-in app */
 	shots: Array<ProjectShot>
 	note: string | null
 }
 
-export type PastProject = {
+export type EarlierProject = {
 	name: string
 	context: string
 	description: string
 	link: ExternalLink | null
+}
+
+export type ExperienceEntry = {
+	company: string
+	role: string
+	period: string
+	logo: StaticImageData | null
+	href: string | null
 }
 
 export type WritingPost = {

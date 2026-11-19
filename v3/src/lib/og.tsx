@@ -21,12 +21,12 @@ export const renderOgImage = ({ eyebrow, title, subtitle }: OgImageContent) =>
 				flexDirection: 'column',
 				justifyContent: 'space-between',
 				padding: '72px 80px',
-				background: '#f4f3f0',
-				color: '#1b1b1a',
+				background: '#f5f5f7',
+				color: '#1d1d1f',
 			}}
 		>
 			<div
-				style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: 28, color: '#75736d' }}
+				style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: 28, color: '#6e6e73' }}
 			>
 				{eyebrow}
 			</div>
@@ -41,12 +41,12 @@ export const renderOgImage = ({ eyebrow, title, subtitle }: OgImageContent) =>
 				>
 					{title}
 				</div>
-				<div style={{ fontSize: 32, color: '#75736d', lineHeight: 1.35, maxWidth: 980 }}>
+				<div style={{ fontSize: 32, color: '#6e6e73', lineHeight: 1.35, maxWidth: 980 }}>
 					{subtitle}
 				</div>
 			</div>
 			<div
-				style={{ display: 'flex', justifyContent: 'space-between', fontSize: 26, color: '#75736d' }}
+				style={{ display: 'flex', justifyContent: 'space-between', fontSize: 26, color: '#6e6e73' }}
 			>
 				<span>{site.name}</span>
 				<span>nathanielquansah.com</span>

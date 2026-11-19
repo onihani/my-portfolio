@@ -4,3 +4,4 @@ playwright-report
 test-results
 src/content/writing/*.md
 package-lock.json
+lighthouse

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+import { ArrowLeftIcon } from '@/components/icons'
 import { getWritingPost, writingPosts } from '@/content/writing'
 import { site } from '@/content/site'
 import { formatLongDate } from '@/lib/dates'
@@ -50,22 +51,30 @@ const ArticlePage = async ({ params }: ArticlePageProps) => {
 
 	return (
 		<article>
-			<Link href="/" className="text-muted hover:text-ink">
-				{site.name}
+			<Link
+				href="/writing"
+				className="quiet-link enter inline-flex items-center gap-1.5 text-[0.9375rem]"
+			>
+				<ArrowLeftIcon className="size-3.5" />
+				Writing
 			</Link>
-			<h1 className="mt-12 text-[1.375rem] font-medium tracking-[-0.01em]">{post.title}</h1>
-			<p className="text-muted">
+			<h1
+				className="enter mt-8 text-[1.75rem] leading-tight font-medium tracking-[-0.02em] md:text-[2.25rem]"
+				style={{ '--i': 1 }}
+			>
+				{post.title}
+			</h1>
+			<p className="enter mt-3 text-[0.9375rem] text-muted" style={{ '--i': 2 }}>
 				{formatLongDate(post.publishedAt)} · {post.readingMinutes} min read · Originally on{' '}
-				<a href={post.originalUrl} className="text-link">
+				<a href={post.originalUrl} className="link">
 					Hashnode
 				</a>
 			</p>
-			<div className="prose mt-10" dangerouslySetInnerHTML={{ __html: html }} />
-			<footer className="mt-20">
-				<Link href="/" className="text-link">
-					Back to home
-				</Link>
-			</footer>
+			<div
+				className="prose enter mt-12"
+				style={{ '--i': 3 }}
+				dangerouslySetInnerHTML={{ __html: html }}
+			/>
 			<script
 				type="application/ld+json"
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd).replace(/</g, '\\u003c') }}
