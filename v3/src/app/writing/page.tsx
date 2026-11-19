@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { ArrowRightIcon, ArrowUpRightIcon } from '@/components/icons'
+import { ArrowRightIcon } from '@/components/icons'
 import type { WritingPost } from '@/content/types'
 import { writingPosts } from '@/content/writing'
 import { formatLongDate } from '@/lib/dates'
@@ -99,20 +99,6 @@ const WritingPage = () => {
 					))}
 				</ul>
 			) : null}
-
-			<p className="mt-16 border-t border-line pt-6 text-[0.9375rem] text-muted">
-				These were first published on{' '}
-				<a
-					href="https://onihani.hashnode.dev"
-					target="_blank"
-					rel="noreferrer"
-					className="link inline-flex items-center gap-0.5 text-ink"
-				>
-					Hashnode
-					<ArrowUpRightIcon className="size-3.5" />
-				</a>
-				.
-			</p>
 		</section>
 	)
 }
