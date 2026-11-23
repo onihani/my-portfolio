@@ -5,4 +5,3 @@
 - The Developers In Vogue and Filly Coder logos were taken from their own websites. Check they are the current ones.
 - Rehoboth: your CV still links to rehobothimmigration.com, which now shows a different firm. Update it to rehobothlawus.com.
 - Hashnode: set the article's canonical URL to the copy on nathanielquansah.com, so search engines treat the on-site version as the original.
-- WayaSend's live preview embeds staging.usewayasend.com, because production still shows the older design. Switch it to usewayasend.com once production is updated.

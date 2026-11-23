@@ -42,7 +42,7 @@ export const projects: Array<Project> = [
 			{
 				image: wayasendLanding,
 				alt: 'WayaSend landing page',
-				liveUrl: 'https://staging.usewayasend.com',
+				liveUrl: 'https://usewayasend.com',
 			},
 			{
 				image: wayasendDashboard,
